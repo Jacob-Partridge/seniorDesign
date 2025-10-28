@@ -1,8 +1,7 @@
 
 import tkinter as tk # import tkinter package
-import gpiozero #import gpio package
-from gpiozero import Servo
 from time import sleep #import sleep
+from servoContro import continuous_servo  # import continuous_servo from servoContro.py
 
 
 # import screeninfo # import screeninfo package
@@ -32,6 +31,7 @@ def button():
     else:
         dispense_button.config(text="Start dispensing", fg="#3a2004", bg="#e0c3a7")
         is_dispensing = True
+        continuous_servo(0)  # call continuous_servo function from servoContro.py
 
 
 # dispense spice button
