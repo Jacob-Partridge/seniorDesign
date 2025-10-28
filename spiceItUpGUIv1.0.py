@@ -1,7 +1,7 @@
 
 import tkinter as tk # import tkinter package
 from time import sleep #import sleep
-from servoControl import despense_spice  # import continuous_servo from servoContro.py
+from servoControl import despenseSpice  # import continuous_servo from servoContro.py
 
 
 # import screeninfo # import screeninfo package
