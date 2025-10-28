@@ -31,7 +31,7 @@ def button():
     else:
         dispense_button.config(text="Start dispensing", fg="#3a2004", bg="#e0c3a7")
         is_dispensing = True
-        despense_spice(0)  # call continuous_servo function from servoContro.py
+        despenseSpice(0)  # call continuous_servo function from servoContro.py
 
 
 # dispense spice button

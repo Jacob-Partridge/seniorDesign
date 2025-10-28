@@ -2,8 +2,7 @@ import time
 from adafruit_servokit import ServoKit
 
 
-def despense_spice(servo: int):
-
+def despenseSpice(servo: int):
     print("I worked")
     # Initialize the kit.
     kit = ServoKit(channels=16)
