@@ -5,7 +5,6 @@ from servoControl import despenseSpice  # import continuous_servo from servoCont
 
 
 # import screeninfo # import screeninfo package
-
 root = tk.Tk() # create root widget ; main window
 
 
