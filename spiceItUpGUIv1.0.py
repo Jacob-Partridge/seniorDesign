@@ -2,7 +2,7 @@
 import tkinter as tk # import tkinter package
 from time import sleep #import sleep
 from servoControl import despenseSpice  # import continuous_servo from servoContro.py
-
+from threading import Thread # import Thread from threading package
 
 # import screeninfo # import screeninfo package
 root = tk.Tk() # create root widget ; main window
@@ -27,19 +27,15 @@ def button():
     if (is_dispensing):
         dispense_button.config(text="Stop dispensing", fg="#231200", bg="#d2b191")
         is_dispensing = False
+        Thread(target=despenseSpice,args=0)  # call continuous_servo function from servoContro.py
+
     else:
         dispense_button.config(text="Start dispensing", fg="#3a2004", bg="#e0c3a7")
         is_dispensing = True
-        despenseSpice(0)  # call continuous_servo function from servoContro.py
-
 
 # dispense spice button
 pixel = tk.PhotoImage(width=1, height=1)
 dispense_button = tk.Button(root, text="Start dispensing", command = button, image=pixel, font=('Noto Serif KR Semibold', 36), fg="#3a2004", bg="#e0c3a7", activeforeground="#231200", activebackground="#d2b191", height=124, width=459, compound="c")
 dispense_button.pack(side="top", pady=100)
-
-
-
-
 
 root.mainloop() # main event loop

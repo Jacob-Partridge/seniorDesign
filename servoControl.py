@@ -21,14 +21,14 @@ def despenseSpice(servo: int):
     # --- 2. FORWARD ---
     # Set the throttle to a positive value (up to +1.0) to rotate forward.
     # +1.0 is full speed forward.
-    continuous_servo.throttle = 0.5
+    continuous_servo.throttle = 0.1
     print("Throttle: 0.5 (Half Speed Forward)")
     time.sleep(5)
 
     # --- 3. REVERSE ---
     # Set the throttle to a negative value (down to -1.0) to rotate backward.
     # -1.0 is full speed reverse.
-    continuous_servo.throttle = -0.5
+    continuous_servo.throttle = -0.1
     print("Throttle: -0.75 (3/4 Speed Reverse)")
     time.sleep(5)
 
