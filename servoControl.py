@@ -2,14 +2,38 @@ import time
 from adafruit_servokit import ServoKit
 
 
-def despenseSpice(servo: int):
+def despenseSpice(box: int):
     print("I worked")
     # Initialize the kit.
     kit = ServoKit(channels=16)
 
     # Access the continuous rotation servo property on channel 0
     continuous_servo = kit.continuous_servo[servo]
+    
 
+    if box in range (0,1):
+        channel = 0
+    else if box in range (2,3):
+        channel = 1
+    else if box in range (4,5):
+        channel = 2
+    else if box in range (6,7)
+        channel = 3
+    else if box in range (8,9):
+        channel = 4
+
+    if box % 2 == 0:
+        continuous_servo.throttle = 0.2
+        time.sleep(5)
+        continuous_servo.throttle = 0.0
+        
+    else:
+        continuous_servo.throttle = -0.2
+        time.sleep(5)
+        continuous_servo.throttle = 0.0
+
+    return 
+"""
     print("Controlling Continuous Rotation Servo on Channel 0...")
 
     # --- 1. STOP ---
@@ -39,4 +63,4 @@ def despenseSpice(servo: int):
     # --- 4. STOP AGAIN ---
     continuous_servo.throttle = 0.0
     print("Throttle: 0.0 (Stopped)")
-    return
+    return"""
