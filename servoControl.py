@@ -1,0 +1,100 @@
+import time
+from adafruit_servokit import ServoKit
+
+
+def despenseSpice(box: int):
+    print("I worked")
+    # Initialize the kit.
+    kit = ServoKit(channels=16)
+
+    # Access the continuous rotation servo property on channel 0
+    continuous_servo = kit.continuous_servo[servo]
+    
+
+    if box in range (0,1):
+        channel = 0
+    else if box in range (2,3):
+        channel = 1
+    else if box in range (4,5):
+        channel = 2
+    else if box in range (6,7)
+        channel = 3
+    else if box in range (8,9):
+        channel = 4
+
+    if box % 2 == 0:
+        continuous_servo.throttle = 0.2
+        time.sleep(5)
+        continuous_servo.throttle = 0.0
+        
+    else:
+        continuous_servo.throttle = -0.2
+        time.sleep(5)
+        continuous_servo.throttle = 0.0
+
+    return 
+
+
+
+def turnServo(servo: int, direction: str):
+    print("I worked")
+    # Initialize the kit.
+    kit = ServoKit(channels=16)
+
+    # Access the continuous rotation servo property on channel 0
+    continuous_servo = kit.continuous_servo[servo]
+    
+
+    if box in range (0,1):
+        channel = 0
+    else if box in range (2,3):
+        channel = 1
+    else if box in range (4,5):
+        channel = 2
+    else if box in range (6,7)
+        channel = 3
+    else if box in range (8,9):
+        channel = 4
+
+    if box % 2 == 0:
+        continuous_servo.throttle = 0.2
+        time.sleep(5)
+        continuous_servo.throttle = 0.0
+        
+    else:
+        continuous_servo.throttle = -0.2
+        time.sleep(5)
+        continuous_servo.throttle = 0.0
+
+    return 
+"""
+    print("Controlling Continuous Rotation Servo on Channel 0...")
+
+    # --- 1. STOP ---
+    # Set the throttle to 0.0 (or close to it) to stop the servo.
+    continuous_servo.throttle = 0.0
+    print("Throttle: 0.0 (Stopped)")
+    time.sleep(5)
+
+    # --- 2. FORWARD ---
+    # Set the throttle to a positive value (up to +1.0) to rotate forward.
+    # +1.0 is full speed forward.
+    continuous_servo.throttle = 0.2
+    print("Throttle: 0.5 (Half Speed Forward)")
+    time.sleep(5)
+
+    continuous_servo.throttle = 0.0
+    time.sleep(5)
+
+
+    # --- 3. REVERSE ---
+    # Set the throttle to a negative value (down to -1.0) to rotate backward.
+    # -1.0 is full speed reverse.
+    continuous_servo.throttle = -0.2
+    print("Throttle: -0.75 (3/4 Speed Reverse)")
+    time.sleep(5)
+
+    # --- 4. STOP AGAIN ---
+    continuous_servo.throttle = 0.0
+    print("Throttle: 0.0 (Stopped)")
+    return"""
