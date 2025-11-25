@@ -10,7 +10,6 @@ def despenseSpice(box: int):
     # Access the continuous rotation servo property on channel 0
     continuous_servo = kit.continuous_servo[servo]
     
-
     if box in range (0,1):
         channel = 0
     else if box in range (2,3):
@@ -44,29 +43,17 @@ def turnServo(servo: int, direction: str):
     # Access the continuous rotation servo property on channel 0
     continuous_servo = kit.continuous_servo[servo]
     
-
-    if box in range (0,1):
-        channel = 0
-    else if box in range (2,3):
-        channel = 1
-    else if box in range (4,5):
-        channel = 2
-    else if box in range (6,7)
-        channel = 3
-    else if box in range (8,9):
-        channel = 4
-
-    if box % 2 == 0:
+    if direction == 'Right':
         continuous_servo.throttle = 0.2
         time.sleep(5)
         continuous_servo.throttle = 0.0
-        
-    else:
+    else if direction == 'Left':
         continuous_servo.throttle = -0.2
         time.sleep(5)
         continuous_servo.throttle = 0.0
 
-    return 
+    return
+
 """
     print("Controlling Continuous Rotation Servo on Channel 0...")
 

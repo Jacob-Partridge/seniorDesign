@@ -1,6 +1,6 @@
 import tkinter as tk # import tkinter package
 from time import sleep # import sleep
-from servoControl import turnServo
+# from servoControl import turnServo
 
 # create root widget ; main window
 root = tk.Tk()
