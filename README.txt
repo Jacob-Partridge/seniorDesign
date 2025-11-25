@@ -1,1 +1,0 @@
-# This is a repo used for the Spice it up senior design project
