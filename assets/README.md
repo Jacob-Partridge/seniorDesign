@@ -3,3 +3,4 @@
 * This folder contains the assets for the SpiceItUp GUI
 * This folder and its contents _**need**_ to be in the _**same directory**_ that the GUI python file is located in (except for the README.md)
   * If not, it _**will**_ result in an error _!!!_
+* Also may need to download this font: https://fonts.google.com/specimen/VT323 
