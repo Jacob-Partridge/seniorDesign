@@ -3,7 +3,7 @@
 # - spiceItUpGUIv2.0                                #
 # - based on figma sketch & spiceItUpGUIv1.1        #
 # - uses python's Tkinter library                   #
-# - meant for testing and integrating backend       #
+# - starting frame only						      	#
 #####################################################
 
 
