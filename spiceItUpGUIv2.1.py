@@ -8,11 +8,10 @@
 #   - https://www.geeksforgeeks.org/python/tkinter-application-to-switch-between-different-page-frames/ #
 #########################################################################################################
 
-
-import tkinter as tk # import tkinter package
 import sys
-import time
-
+import time # import time class
+import tkinter as tk # import tkinter package
+import backEnd as backend # import backend class
 
 # class for animated GIFs
 # credit to: https://github.com/olesk75/AnimatedGIF  (saved my life)
@@ -733,6 +732,7 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
+			
             command = lambda: controller.showFrame(amountDispenseWin)
         )
 		button6.grid(row=2, column=2, sticky=tk.N)
@@ -824,15 +824,14 @@ class amountDispenseWin(tk.Frame):
 		title.grid(row=0, column=0, columnspan=3, sticky=tk.N)
 
         # amountDispenseWin textbox
-		amountBox = tk.Text(
+		self.amountBox = tk.Entry(
 			self,
 			font = regularFont,
 			fg = fontColor,
 			bg = buttonColor,
 			width = 10,
-			height = 2
 		)
-		amountBox.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.N)
+		self.amountBox.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.N)
 
         # amountDispenseWin buttons
 		self.pixel = tk.PhotoImage(width=1, height=1) # invisible pixel for button appearance
@@ -850,7 +849,8 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(startWin)
+            command = lambda: [controller.showFrame(startWin),
+                               backend.despenseSpice()]
         )
 		gramsButton.grid(row=2, column=0, sticky=tk.N)
 		

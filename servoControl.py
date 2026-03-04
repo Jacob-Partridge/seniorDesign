@@ -1,35 +1,35 @@
 import time
 from adafruit_servokit import ServoKit
 
+# Initialize the kit.
+kit = ServoKit(channels=16)
 
-def despenseSpice(box: int):
-    print("I worked")
-    # Initialize the kit.
-    kit = ServoKit(channels=16)
-    # Access the continuous rotation servo property on channel input
-    continuous_servo = kit.continuous_servo[box]
-    
+# Access the continuous rotation servo property on channel input
+spice_boxes = kit.continuous_servo
 
-    if box in range (0,1):
+
+def despenseSpice(spice: str, amount: int):
+
+    if spice_boxes in range (0,1):
         channel = 0
-    elif box in range (2,3):
+    elif spice_boxes in range (2,3):
         channel = 1
-    elif box in range (4,5):
+    elif spice_boxes in range (4,5):
         channel = 2
-    elif box in range (6,7):
+    elif spice_boxes in range (6,7):
         channel = 3
-    elif box in range (8,9):
+    elif spice_boxes in range (8,9):
         channel = 4
 
-    if box % 2 == 0:
-        continuous_servo.throttle = 0.2
+    if spice_boxes % 2 == 0:
+        spice_boxes.throttle = 0.2
         time.sleep(5)
-        continuous_servo.throttle = 0.0
+        spice_boxes.throttle = 0.0
         
     else:
-        continuous_servo.throttle = -0.2
+        spice_boxes.throttle = -0.2
         time.sleep(5)
-        continuous_servo.throttle = 0.0
+        spice_boxes.throttle = 0.0
 
     return 
 
