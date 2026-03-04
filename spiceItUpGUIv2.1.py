@@ -11,7 +11,7 @@
 import sys
 import time # import time class
 import tkinter as tk # import tkinter package
-import backEnd as backend # import backend class
+import backEnd # import backend class
 
 # class for animated GIFs
 # credit to: https://github.com/olesk75/AnimatedGIF  (saved my life)
@@ -22,6 +22,7 @@ class AnimatedGif(tk.Label):
 		# :param gif_file: filename (and path) of animated gif
 		# :param delay: delay between frames in the gif animation (float)
 		
+		backend = backEnd.SpiceItUpBackend() # initialize backend for all backend function
 		tk.Label.__init__(self, root)
 		self.root = root
 		self.gif_file = gif_file
@@ -850,7 +851,7 @@ class amountDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(startWin),
-                               backend.despenseSpice()]
+                               self.backend.despenseSpice()]
         )
 		gramsButton.grid(row=2, column=0, sticky=tk.N)
 		
