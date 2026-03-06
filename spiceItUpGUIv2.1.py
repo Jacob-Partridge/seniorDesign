@@ -22,7 +22,6 @@ class AnimatedGif(tk.Label):
 		# :param gif_file: filename (and path) of animated gif
 		# :param delay: delay between frames in the gif animation (float)
 		
-		backend = backEnd.SpiceItUpBackend() # initialize backend for all backend function
 		tk.Label.__init__(self, root)
 		self.root = root
 		self.gif_file = gif_file
@@ -90,6 +89,11 @@ pressedFont = '#692a0e'
 winWidth = 1280
 winHeight = 720
 
+# created backend object to call backend functions from GUI
+backend = backEnd.SpiceItUpBackend()
+
+# global variable to store spice selection for dispensing
+spice = ''
 
 # class for initiallizing all GUI frames and defining show_frame function
 class spiceItUpApp(tk.Tk):
@@ -637,7 +641,8 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button0.cget("text"))]
         )
 		button0.grid(row=1, column=1, sticky=tk.N)
 		
@@ -653,7 +658,8 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button1.cget("text"))]
         )
 		button1.grid(row=1, column=2, sticky=tk.N)
 		
@@ -669,7 +675,8 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button2.cget("text"))]
         )
 		button2.grid(row=1, column=3, sticky=tk.N)
 		
@@ -685,7 +692,8 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button3.cget("text"))]
         )
 		button3.grid(row=1, column=4, sticky=tk.N)
 		
@@ -701,7 +709,8 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button4.cget("text"))]
         )
 		button4.grid(row=1, column=5, sticky=tk.N)
 
@@ -717,7 +726,8 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button5.cget("text"))]
         )
 		button5.grid(row=2, column=1, sticky=tk.N)
 		
@@ -734,7 +744,8 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
 			
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button6.cget("text"))]
         )
 		button6.grid(row=2, column=2, sticky=tk.N)
 		
@@ -750,7 +761,8 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button7.cget("text"))]
         )
 		button7.grid(row=2, column=3, sticky=tk.N)
 		
@@ -766,7 +778,8 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button8.cget("text"))]
         )
 		button8.grid(row=2, column=4, sticky=tk.N)
 		
@@ -782,7 +795,8 @@ class selectDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(amountDispenseWin)
+            command = lambda: [controller.showFrame(amountDispenseWin),
+							   globals().update(spice=button9.cget("text"))]
         )
 		button9.grid(row=2, column=5, sticky=tk.N)
 		
@@ -851,7 +865,8 @@ class amountDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(startWin),
-                               self.backend.despenseSpice()]
+                               backend.despenseSpice(spice, self.amountBox.get(),
+													 gramsButton['text'])]
         )
 		gramsButton.grid(row=2, column=0, sticky=tk.N)
 		
@@ -867,7 +882,9 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(startWin)
+            command = lambda: [controller.showFrame(startWin),
+							   backend.despenseSpice(spice, self.amountBox.get(),
+							                         teaspoonsButton['text'])]
         )
 		teaspoonsButton.grid(row=2, column=1, sticky=tk.N)
 		
@@ -883,7 +900,9 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(startWin)
+            command = lambda: [controller.showFrame(startWin),
+							   backend.despenseSpice(spice, self.amountBox.get(),
+							                         tablespoonsButton['text'])]
         )
 		tablespoonsButton.grid(row=2, column=2, sticky=tk.N)
 		
@@ -941,7 +960,7 @@ class selectLayoutWin(tk.Frame):
 		
 		button0 = tk.Button(
 			self, 
-            text = "Spice 1", 
+            text = "Spice 1",
             font = smallFont, 
             fg = fontColor, 
             bg = buttonColor, 
