@@ -11,39 +11,49 @@ class SpiceItUpBackend:
         self.turnServo = self.kit.continuous_servo
         self.spiceBox = None
         
-        self.spices = { 'Spice 1': {"gram/seconds" : 0.0,
-                                   "currentlyHoused" : 1},
+        self.spices = { 'Spice 1': {"seconds/gram" : 0.0, # Fine Salt
+                                   "currentlyHoused" : 1,
+                                   "conversionConstant" : 1},
 
-                        'Spice 2': {"gram/seconds" : 0.0,
-                                   "currentlyHoused" : 2},
+                        'Spice 2': {"seconds/gram" : 0.0, # Black Pepper
+                                   "currentlyHoused" : 2,
+                                   "conversionConstant" : 1},
 
-                        'Spice 3': {"gram/seconds" : 0.0,
-                                   "currentlyHoused" : 3},
+                        'Spice 3': {"seconds/gram" : 0.0, # Garlic Powder
+                                   "currentlyHoused" : 3,
+                                   "conversionConstant" : 1},
 
-                        'Spice 4': {"gram/seconds" : 0.0,
-                                   "currentlyHoused" : 4},
+                        'Spice 4': {"seconds/gram" : 0.0, # Onion Powder
+                                   "currentlyHoused" : 4,
+                                   "conversionConstant" : 1},
 
-                        'Spice 5': {"gram/seconds" : 0.0,
-                                   "currentlyHoused" : 5},
+                        'Spice 5': {"seconds/gram" : 0.0, # Paprika
+                                   "currentlyHoused" : 5,
+                                   "conversionConstant" : 1},
 
-                        'Spice 6': {"gram/seconds" : 0.0,
-                                  "currentlyHoused" : 6},
+                        'Spice 6': {"seconds/gram" : 0.0, # Cumin
+                                  "currentlyHoused" : 6,
+                                  "conversionConstant" : 1},
 
-                        'Spice 7': {"gram/seconds" : 0.0,
-                                   "currentlyHoused" : 7},
+                        'Spice 7': {"seconds/gram" : 0.0, # Chili Powder
+                                   "currentlyHoused" : 7,
+                                   "conversionConstant" : 1},
 
-                        'Spice 8': {"gram/seconds" : 0.0,
-                                   "currentlyHoused" : 8},
+                        'Spice 8': {"seconds/gram" : 0.0, # Cayenne Pepper
+                                   "currentlyHoused" : 8,
+                                   "conversionConstant" : 1},
 
-                        'Spice 9': {"gram/seconds" : 0.0,
-                                   "currentlyHoused" : 9},
+                        'Spice 9': {"seconds/gram" : 0.0, # Dried Oregano
+                                   "currentlyHoused" : 9,
+                                   "conversionConstant" : 1},
                                           
-                        'Spice 10': {"gram/seconds" : 0.0,
-                                     "currentlyHoused" : 10}
+                        'Spice 10': {"seconds/gram" : 0.0, # Brown Sugar
+                                     "currentlyHoused" : 10,
+                                     "conversionConstant" : 1}
         }
 
     def addSpice(self, spiceName, gramsPerSecond, currentlyHoused):
-        self.spices[spiceName] = { "gram/seconds" : gramsPerSecond, "currentlyHoused" : currentlyHoused}
+        self.spices[spiceName] = { "seconds/gram" : gramsPerSecond, "currentlyHoused" : currentlyHoused}
 
     def addRecipe(self, recipeName, spiceList):
         self.recipes[recipeName] = spiceList
@@ -68,6 +78,11 @@ class SpiceItUpBackend:
         elif self.spiceBox['currentlyHoused'] in range (8,9):
             self.channel = 4
 
+        if size is not "Grams":
+                timeToRun = self.calculateSpiceTime(amount, size, self.spiceBox['seconds/gram'], self.spiceBox['conversionConstant'])
+        else:
+                timeToRun = amount * self.spiceBox['seconds/gram']
+
         if self.spiceBox['currentlyHoused'] % 2 == 0:
             self.turnServo.throttle[self.channel] = 0.2
             time.sleep(5)
@@ -77,3 +92,11 @@ class SpiceItUpBackend:
             time.sleep(5)
             self.turnServo.throttle[self.channel] = 0.0
         return
+    
+    def calculateSpiceTime(self, amount: int, size: str, gramsPerSecond: float, conversionConstant: float):
+        if size == "teaspoon":
+            return (amount * conversionConstant) / gramsPerSecond
+        elif size == "tablespoon":
+            return (amount * conversionConstant) / gramsPerSecond
+        # elif size == "cup":
+        # return (amount * 128) / gramsPerSecond
