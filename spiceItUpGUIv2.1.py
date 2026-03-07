@@ -786,7 +786,7 @@ class selectDispenseWin(tk.Frame):
 		button9 = tk.Button(
 			self, 
             text = "Spice 10", 
-            font = smallFont, 
+            font = smallFont,
             fg = fontColor, 
             bg = buttonColor, 
             activeforeground = pressedFont, 
