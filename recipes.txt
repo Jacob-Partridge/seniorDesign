@@ -1,0 +1,5 @@
+Spice Cajun Chicken = {Spice 1: [2, Tablespoons],Spice 3: [1, Tablespoons],Spice 4: [1, Teaspoon],Spice 8: [3, Tablespoons],Spice 10: [1, Tablespoons]}
+endRecipe
+
+Recipe 2 = {}
+endRecipe

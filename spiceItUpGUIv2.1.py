@@ -92,6 +92,8 @@ winHeight = 720
 # created backend object to call backend functions from GUI
 backend = backEnd.SpiceItUpBackend()
 
+backend.getRecipes() # testing getRecipes function in backend
+
 # global variable to store spice selection for dispensing
 spice = ''
 
@@ -865,7 +867,7 @@ class amountDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(startWin),
-                               backend.despenseSpice(spice, self.amountBox.get(),
+                               backend.despenseSpice(spice, float(self.amountBox.get()),
 													 gramsButton['text'])]
         )
 		gramsButton.grid(row=2, column=0, sticky=tk.N)
@@ -883,7 +885,7 @@ class amountDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(startWin),
-							   backend.despenseSpice(spice, self.amountBox.get(),
+							   backend.despenseSpice(spice, float(self.amountBox.get()),
 							                         teaspoonsButton['text'])]
         )
 		teaspoonsButton.grid(row=2, column=1, sticky=tk.N)
@@ -901,7 +903,7 @@ class amountDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(startWin),
-							   backend.despenseSpice(spice, self.amountBox.get(),
+							   backend.despenseSpice(spice, float(self.amountBox.get()),
 							                         tablespoonsButton['text'])]
         )
 		tablespoonsButton.grid(row=2, column=2, sticky=tk.N)
