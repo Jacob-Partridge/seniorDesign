@@ -1,5 +1,5 @@
 import time
-# from adafruit_servokit import ServoKit
+from adafruit_servokit import ServoKit
 
 class SpiceItUpBackend:
     def __init__(self):
@@ -7,10 +7,10 @@ class SpiceItUpBackend:
             print("Initializing backend...")
             """ salt, black pepper, garlic powder, onion powder, paprika, cumin, chili powder, cayenne pepper, dried oregano, brown sugar """
             # Initialize the kit.
-            # self.kit = ServoKit(channels=16)
+            self.kit = ServoKit(channels=16)
 
             #  Access the continuous rotation servo property on channel input
-            # self.turnServo = self.kit.continuous_servo
+            self.turnServo = self.kit.continuous_servo
             self.spiceBox = 0
             self.timeToRun = 0
             self.channel = 0
@@ -96,15 +96,15 @@ class SpiceItUpBackend:
             self.timeToRun = self.calculateSpiceTime(amount, size, self.spiceBox['teaspoons/second'])
                 
         if self.spiceBox['currentlyHoused'] % 2 == 0:
-            # self.turnServo.throttle[self.channel] = 0.2
+            self.turnServo.throttle[self.channel] = 0.2
             print("Turning servo forward...")
             time.sleep(self.timeToRun)
         else:
-            #self.turnServo.throttle[self.channel] = -0.2
+            self.turnServo.throttle[self.channel] = -0.2
             print("Turning servo backward...")
             time.sleep(self.timeToRun)
 
-        # self.turnServo.throttle[self.channel] = 0.0
+        self.turnServo.throttle[self.channel] = 0.0
         return
     
     def calculateSpiceTime(self, amount: float, size: str, teaspoonsPerSecond: float):
