@@ -10,6 +10,6 @@ while input != "Done" and input != "done":
         break
     
     print("Enter the time you want to run the servo for (in seconds) or type 'Done' to stop:")
-    continuous_servo.throttle = 0.2
+    continuous_servo.throttle = -0.2
     time.sleep(float(user_input))
     continuous_servo.throttle = 0
