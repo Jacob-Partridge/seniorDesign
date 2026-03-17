@@ -331,7 +331,7 @@ class layoutWin(tk.Frame):
 		
 		button0 = tk.Button(
 			self, 
-            text = "Empty", 
+            text = "Spice 1", 
             font = smallFont, 
             fg = fontColor, 
             bg = buttonColor, 
