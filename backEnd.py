@@ -71,9 +71,10 @@ class SpiceItUpBackend:
         self.recipes[recipeName] = spiceList
         return
 
-    def despenseSpice(self, spice: str, amount: float, size: str):
+    def despenseSpice(self, spice: str, amount: str, size: str):
         self.spiceBox = self.spices[f'{spice}']
         self.housed = self.spiceBox['currentlyHoused']
+        amount = float(amount)
         print(f"Box: {self.housed}\nAmount: {amount}\nSize: {size}\n")
         if self.housed == 0:
             print(f"Spice '{spice}' not housed, please house spice and try again.")
