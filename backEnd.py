@@ -7,10 +7,9 @@ class SpiceItUpBackend:
             print("Initializing backend...")
             """ salt, black pepper, garlic powder, onion powder, paprika, cumin, chili powder, cayenne pepper, dried oregano, brown sugar """
             # Initialize the kit.
-            self.kit = ServoKit(channels=16)
-
+            kit = ServoKit(channels=16)
             #  Access the continuous rotation servo property on channel input
-            self.turnServo = self.kit.continuous_servo
+            self.turnServo = kit.continuous_servo
             self.spiceBox = 0
             self.timeToRun = 0
             self.channel = 0
