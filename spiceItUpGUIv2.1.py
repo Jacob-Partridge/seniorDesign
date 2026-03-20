@@ -42,7 +42,7 @@ class AnimatedGif(tk.Label):
 	def _animate(self):
 		try:
 			self.gif = tk.PhotoImage(file=self.gif_file, format='gif -index {}'.format(self._num))  # looping through the frames
-			self.configure(image=self.gif)
+			self.configure(image=self.gif, borderwidth=0, highlightthickness=0)
 			self._num += 1
 		except tk.TclError:  # when we try a frame that doesn't exist, we know we have to start over from zero
 			self._num = 0
@@ -160,7 +160,7 @@ class startWin(tk.Frame):
 
         # lilGuy dancing
 		lilGuyDancing = AnimatedGif(self, './assets/lilGuy_dancing.gif', 0.5)
-		lilGuyDancing.grid(row=1, column=0, rowspan=3)
+		lilGuyDancing.grid(row=1, column=0, rowspan=3, columnspan=1)
 		lilGuyDancing.start()
 
         # startWin buttons
@@ -238,7 +238,7 @@ class dispenseSpiceWin(tk.Frame):
 
         # lilGuy dancing
 		lilGuyDancing = AnimatedGif(self, './assets/lilGuy_dancing.gif', 0.5)
-		lilGuyDancing.grid(row=1, column=0, rowspan=3)
+		lilGuyDancing.grid(row=1, column=0, rowspan=3, columnspan=1)
 		lilGuyDancing.start()
 
         # dispenseSpiceWin buttons
