@@ -48,7 +48,7 @@ class AnimatedGif(tk.Label):
 			self._num = 0
 			# loop through frames again to avoid pause
 			self.gif = tk.PhotoImage(file=self.gif_file, format='gif -index {}'.format(self._num))
-			self.configure(image=self.gif)
+			self.configure(image=self.gif, borderwidth=0, highlightthickness=0)
 			self._num += 1
 		if not self.stop:    # if the stop flag is set, don't repeat
 			self.root.after(int(self.delay*1000), self._animate)
