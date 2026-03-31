@@ -331,7 +331,7 @@ class layoutWin(tk.Frame):
 		
 		button0 = tk.Button(
 			self, 
-            text = "Spice 1", 
+            text = "Salt", 
             font = smallFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -347,7 +347,7 @@ class layoutWin(tk.Frame):
 		
 		button1 = tk.Button(
 			self, 
-            text = "Spice 2", 
+            text = "Black Pepper", 
             font = smallFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -633,7 +633,7 @@ class selectDispenseWin(tk.Frame):
 		
 		button0 = tk.Button(
 			self, 
-            text = "Spice 1", 
+            text = "Salt", 
             font = smallFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -650,7 +650,7 @@ class selectDispenseWin(tk.Frame):
 		
 		button1 = tk.Button(
 			self, 
-            text = "Spice 2", 
+            text = "Black Pepper", 
             font = smallFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -962,7 +962,7 @@ class selectLayoutWin(tk.Frame):
 		
 		button0 = tk.Button(
 			self, 
-            text = "Spice 1",
+            text = "Salt",
             font = smallFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -978,7 +978,7 @@ class selectLayoutWin(tk.Frame):
 		
 		button1 = tk.Button(
 			self, 
-            text = "Spice 2", 
+            text = "Black Pepper", 
             font = smallFont, 
             fg = fontColor, 
             bg = buttonColor, 

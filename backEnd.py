@@ -2,6 +2,18 @@ import time
 # from adafruit_servokit import ServoKit
 
 class SpiceItUpBackend:
+    """ This class will handle all the backend logic for the spice dispensing machine, 
+        including calculating the time to run the servo for each spice, as well as keeping 
+        track of the spice recipes. """
+
+    # Spice channel queues for the 5 spice channels, each channel can hold 2 spice boxes, 
+    # So we can have 10 spice boxes in total
+    channelOneQueue = []
+    channelTwoQueue = []
+    channelThreeQueue = []
+    channelFourQueue = []
+    channelFiveQueue = []
+
     def __init__(self):
         try: 
             print("Initializing backend...")
@@ -15,43 +27,47 @@ class SpiceItUpBackend:
             self.channel = 0
             self.spiceQueue = []
             self.recipes = {}
-            self.spices = { 'salt': {"teaspoons/second" : 7.5, # Fine Salt
+            
+            
+            # We got the flow rate for salt and are using it as a baseline for the other spices, 
+            # We can adjust the flow rates as we test the machine and get more accurate measurements for each spice
+            self.spices = { 'Salt': {"teaspoons/second" : 7.5, # Fine Salt
                                     "currentlyHoused" : 0,
                                     "conversionConstant" : 1},
 
-                            'black pepper': {"teaspoons/second" : 1.0, # Black Pepper
+                            'Black Pepper': {"teaspoons/second" : 7.5, # Black Pepper
                                     "currentlyHoused" : 0,
                                     "conversionConstant" : 1},
 
-                            'garlic powder': {"teaspoons/second" : 1.0, # Garlic Powder
+                            'Garlic Powder': {"teaspoons/second" : 7.5, # Garlic Powder
                                     "currentlyHoused" : 0,
                                     "conversionConstant" : 1},
 
-                            'onion powder': {"teaspoons/second" : 1.0, # Onion Powder
+                            'Onion Powder': {"teaspoons/second" : 7.5, # Onion Powder
                                     "currentlyHoused" : 0,
                                     "conversionConstant" : 1},
 
-                            'paprika': {"teaspoons/second" : 1.0, # Paprika
+                            'Paprika': {"teaspoons/second" : 7.5, # Paprika
                                     "currentlyHoused" : 0,
                                     "conversionConstant" : 1},
 
-                            'cumin': {"teaspoons/second" : 1.0, # Cumin
+                            'Cumin': {"teaspoons/second" : 7.5, # Cumin
                                     "currentlyHoused" : 0,
                                     "conversionConstant" : 1},
 
-                            'chili powder': {"teaspoons/second" : 1.0, # Chili Powder
+                            'Chili Powder': {"teaspoons/second" : 7.5, # Chili Powder
                                     "currentlyHoused" : 0,
                                     "conversionConstant" : 1},
 
-                            'cayenne pepper': {"teaspoons/second" : 1.0, # Cayenne Pepper
+                            'Cayenne Pepper': {"teaspoons/second" : 7.5, # Cayenne Pepper
                                     "currentlyHoused" : 0,
                                     "conversionConstant" : 1},
 
-                            'dried oregano': {"teaspoons/second" : 1.0, # Dried Oregano
+                            'Dried Oregano': {"teaspoons/second" : 7.5, # Dried Oregano
                                     "currentlyHoused" : 0,
                                     "conversionConstant" : 1},
                                             
-                            'brown sugar': {"teaspoons/second" : 1.0, # Brown Sugar
+                            'Brown Sugar': {"teaspoons/second" : 7.5, # Brown Sugar
                                         "currentlyHoused" : 0,
                                         "conversionConstant" : 1}
         }
@@ -70,7 +86,10 @@ class SpiceItUpBackend:
         return
     
     def calculateSpiceTime(self, amount: float, size: str, teaspoonsPerSecond: float):
-        if size == "Tablespoons":
+
+        if size == "Teaspoons":
+            return amount * teaspoonsPerSecond
+        elif size == "Tablespoons":
             return (amount * 3) * teaspoonsPerSecond
         elif size == "Cups":
             return (amount * 48) * teaspoonsPerSecond
@@ -106,10 +125,7 @@ class SpiceItUpBackend:
         elif self.spiceBox['currentlyHoused'] in range (8,9):
             self.channel = 4
 
-        if size == "Teaspoons":
-            self.timeToRun = amount * self.spiceBox['teaspoons/second']
-        else:
-            self.timeToRun = self.calculateSpiceTime(amount, size, self.spiceBox['teaspoons/second'])
+        self.timeToRun = self.calculateSpiceTime(amount, size, self.spiceBox['teaspoons/second'])
                 
         if self.spiceBox['currentlyHoused'] % 2 == 0:
             # self.turnServo[self.channel].throttle = 0.2
