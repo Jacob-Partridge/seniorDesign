@@ -36,39 +36,39 @@ class SpiceItUpBackend:
                                     "conversionConstant" : 1},
 
                             'Black Pepper': {"teaspoons/second" : 7.5, # Black Pepper
-                                    "currentlyHoused" : 0,
+                                    "currentlyHoused" : 1,
                                     "conversionConstant" : 1},
 
                             'Garlic Powder': {"teaspoons/second" : 7.5, # Garlic Powder
-                                    "currentlyHoused" : 0,
+                                    "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
                             'Onion Powder': {"teaspoons/second" : 7.5, # Onion Powder
-                                    "currentlyHoused" : 0,
+                                    "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
                             'Paprika': {"teaspoons/second" : 7.5, # Paprika
-                                    "currentlyHoused" : 0,
+                                    "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
                             'Cumin': {"teaspoons/second" : 7.5, # Cumin
-                                    "currentlyHoused" : 0,
+                                    "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
                             'Chili Powder': {"teaspoons/second" : 7.5, # Chili Powder
-                                    "currentlyHoused" : 0,
+                                    "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
                             'Cayenne Pepper': {"teaspoons/second" : 7.5, # Cayenne Pepper
-                                    "currentlyHoused" : 0,
+                                    "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
                             'Dried Oregano': {"teaspoons/second" : 7.5, # Dried Oregano
-                                    "currentlyHoused" : 0,
+                                    "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
                                             
                             'Brown Sugar': {"teaspoons/second" : 7.5, # Brown Sugar
-                                        "currentlyHoused" : 0,
+                                        "currentlyHoused" : -1,
                                         "conversionConstant" : 1}
         }
             print("Backend initialized successfully.")
@@ -110,7 +110,7 @@ class SpiceItUpBackend:
         self.housed = self.spiceBox['currentlyHoused']
         amount = int(amount)
         print(f"Box: {self.housed}\nAmount: {amount}\nSize: {size}\n")
-        if self.housed == 0:
+        if self.housed == -1:
             print(f"Spice '{spice}' not housed, please house spice and try again.")
             return
 
