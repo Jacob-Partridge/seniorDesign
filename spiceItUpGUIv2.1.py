@@ -827,7 +827,7 @@ class amountDispenseWin(tk.Frame):
 		
         # settings of select amount window
 		self.configure(background=bgColor)
-        # 4x3 grid
+        # 4x5 grid
 		self.rowconfigure(0, weight=1)
 		self.rowconfigure(1, weight=1)
 		self.rowconfigure(2, weight=1)
@@ -835,10 +835,12 @@ class amountDispenseWin(tk.Frame):
 		self.columnconfigure(0, weight=1)
 		self.columnconfigure(1, weight=1)
 		self.columnconfigure(2, weight=1)
+		self.columnconfigure(3, weight=1)
+		self.columnconfigure(4, weight=1)
 
         # amountDispenseWin title
 		title = tk.Label(self, text="Select Amount", font=titleFont, fg=fontColor, bg=bgColor)
-		title.grid(row=0, column=0, columnspan=3, sticky=tk.N)
+		title.grid(row=0, column=0, columnspan=5, sticky=tk.N)
 
         # amountDispenseWin textbox
 		self.amountBox = tk.Entry(
@@ -847,6 +849,7 @@ class amountDispenseWin(tk.Frame):
 			fg = fontColor,
 			bg = buttonColor,
 			width = 10,
+			height = 2
 		)
 		self.amountBox.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.N)
 
@@ -854,6 +857,70 @@ class amountDispenseWin(tk.Frame):
 		self.pixel = tk.PhotoImage(width=1, height=1) # invisible pixel for button appearance
 		pixel = self.pixel
 
+		plusOneButton = tk.Button(
+			self, 
+            text = "+1", 
+            font = regularFont, 
+            fg = fontColor, 
+            bg = buttonColor, 
+            activeforeground = pressedFont, 
+            activebackground = pressedButton,
+            width = 160,
+            height = 160,
+            image = pixel,
+            compound = tk.CENTER,
+            command = 'idk'
+        )
+		plusOneButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NE, padx=10)
+		
+		plusFiveButton = tk.Button(
+			self, 
+            text = "+5", 
+            font = regularFont, 
+            fg = fontColor, 
+            bg = buttonColor, 
+            activeforeground = pressedFont, 
+            activebackground = pressedButton,
+            width = 160,
+            height = 160,
+            image = pixel,
+            compound = tk.CENTER,
+            command = 'idk'
+        )
+		plusFiveButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NW)
+		
+		minusOneButton = tk.Button(
+			self, 
+            text = "-1", 
+            font = regularFont, 
+            fg = fontColor, 
+            bg = buttonColor, 
+            activeforeground = pressedFont, 
+            activebackground = pressedButton,
+            width = 160,
+            height = 160,
+            image = pixel,
+            compound = tk.CENTER,
+            command = 'idk'
+        )
+		minusOneButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NW, padx=10)
+		
+		minusFiveButton = tk.Button(
+			self, 
+            text = "-5", 
+            font = regularFont, 
+            fg = fontColor, 
+            bg = buttonColor, 
+            activeforeground = pressedFont, 
+            activebackground = pressedButton,
+            width = 160,
+            height = 160,
+            image = pixel,
+            compound = tk.CENTER,
+            command = 'idk'
+        )
+		minusFiveButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NE)
+		
 		gramsButton = tk.Button(
 			self, 
             text = "Grams", 
@@ -870,7 +937,7 @@ class amountDispenseWin(tk.Frame):
                                backend.despenseSpice(spice, self.amountBox.get(),
 													 gramsButton['text'])]
         )
-		gramsButton.grid(row=2, column=0, sticky=tk.N)
+		gramsButton.grid(row=2, column=0, columnspan=2, sticky=tk.N)
 		
 		teaspoonsButton = tk.Button(
             self,
@@ -888,7 +955,7 @@ class amountDispenseWin(tk.Frame):
 							   backend.despenseSpice(spice, self.amountBox.get(),
 							                         teaspoonsButton['text'])]
         )
-		teaspoonsButton.grid(row=2, column=1, sticky=tk.N)
+		teaspoonsButton.grid(row=2, column=2, sticky=tk.N)
 		
 		tablespoonsButton = tk.Button(
             self,
@@ -906,7 +973,7 @@ class amountDispenseWin(tk.Frame):
 							   backend.despenseSpice(spice, self.amountBox.get(),
 							                         tablespoonsButton['text'])]
         )
-		tablespoonsButton.grid(row=2, column=2, sticky=tk.N)
+		tablespoonsButton.grid(row=2, column=3, columnspan=2, sticky=tk.N)
 		
 		back = tk.Button(
             self,
@@ -922,7 +989,7 @@ class amountDispenseWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: controller.showFrame(selectDispenseWin)
         )
-		back.grid(row=3, column=1, sticky=tk.N)
+		back.grid(row=3, column=2, sticky=tk.N)
 
 
 # class for spice selection window (layout)
