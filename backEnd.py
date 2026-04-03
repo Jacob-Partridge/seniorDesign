@@ -152,3 +152,7 @@ class SpiceItUpBackend:
             self.recipes[recipeName] = spiceList
         print(self.recipes)
         return
+    
+    def updateAmountGUI(self, currentVal, delta):
+        new_value = max(0, currentVal + delta) # Prevents negative amounts
+        return new_value
