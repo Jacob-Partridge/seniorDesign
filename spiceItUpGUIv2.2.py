@@ -1247,7 +1247,7 @@ class selectLayoutWin(tk.Frame):
 		title.grid(row=0, column=0, columnspan=3, sticky=tk.N)
 
         # scrollable frame for scrollable buttons
-		frame = ScrollableFrame(self, width=1280, height=400, hscroll=False, vscroll=False)
+		frame = ScrollableFrame(self, width=1280, height=400, hscroll=False, vscroll=False, bg=bgColor)
 		frame.grid(row=1, rowspan=2, column=0, columnspan=3, sticky=tk.S)
 
 
