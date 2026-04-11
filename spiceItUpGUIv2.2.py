@@ -12,6 +12,7 @@ import sys
 import time # import time class
 import tkinter as tk # import tkinter package
 import backEnd # import backend class
+from threading import Thread, Semaphore # import threading classes for backend and GUI to run simultaneously
 
 # class for animated GIFs
 # credit to: https://github.com/olesk75/AnimatedGIF  (saved my life)
@@ -895,7 +896,7 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button0.cget("text"))]
+							   globals().update(spice=currentLayout[0])]
         )
 		button0.grid(row=1, column=1, sticky=tk.N)
 		
@@ -912,7 +913,7 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button1.cget("text"))]
+							   globals().update(spice=currentLayout[1])]
         )
 		button1.grid(row=1, column=2, sticky=tk.N)
 		
@@ -929,7 +930,7 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button2.cget("text"))]
+							   globals().update(spice=currentLayout[2])]
         )
 		button2.grid(row=1, column=3, sticky=tk.N)
 		
@@ -946,7 +947,7 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button3.cget("text"))]
+							   globals().update(spice=currentLayout[3])]
         )
 		button3.grid(row=1, column=4, sticky=tk.N)
 		
@@ -963,7 +964,7 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button4.cget("text"))]
+							   globals().update(spice=currentLayout[4])]
         )
 		button4.grid(row=1, column=5, sticky=tk.N)
 
@@ -980,7 +981,7 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button5.cget("text"))]
+							   globals().update(spice=currentLayout[5])]
         )
 		button5.grid(row=2, column=1, sticky=tk.N)
 		
@@ -998,7 +999,7 @@ class selectDispenseWin(tk.Frame):
             compound = tk.CENTER,
 			
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button6.cget("text"))]
+							   globals().update(spice=currentLayout[6])]
         )
 		button6.grid(row=2, column=2, sticky=tk.N)
 		
@@ -1015,7 +1016,7 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button7.cget("text"))]
+							   globals().update(spice=currentLayout[7])]
         )
 		button7.grid(row=2, column=3, sticky=tk.N)
 		
@@ -1032,7 +1033,7 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button8.cget("text"))]
+							   globals().update(spice=currentLayout[8])]
         )
 		button8.grid(row=2, column=4, sticky=tk.N)
 		
@@ -1049,7 +1050,7 @@ class selectDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
-							   globals().update(spice=button9.cget("text"))]
+							   globals().update(spice=currentLayout[9])]
         )
 		button9.grid(row=2, column=5, sticky=tk.N)
 		
@@ -1184,9 +1185,9 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: [controller.showFrame(waitingWin),
-                               backend.despenseSpice(spice, self.amountBox.cget("text"),
-													 gramsButton['text'])]
+            command = lambda: [Thread(target=backend.despenseSpice, args=(spice, self.amountBox.cget("text"),
+																		  gramsButton['text'])).start(),
+								controller.showFrame(waitingWin)]
         )
 		gramsButton.grid(row=2, column=0, columnspan=2, sticky=tk.N)
 		
@@ -1202,9 +1203,9 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: [controller.showFrame(waitingWin),
-							   backend.despenseSpice(spice, self.amountBox.cget("text"),
-							                         teaspoonsButton['text'])]
+            command = lambda: [Thread(target=backend.despenseSpice, args=(spice, self.amountBox.cget("text"),
+							                         teaspoonsButton['text'])).start(),
+							   controller.showFrame(waitingWin)]
         )
 		teaspoonsButton.grid(row=2, column=2, sticky=tk.N)
 		
@@ -1220,9 +1221,9 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: [controller.showFrame(waitingWin),
-							   backend.despenseSpice(spice, self.amountBox.cget("text"),
-							                         tablespoonsButton['text'])]
+            command = lambda: [Thread(target=backend.despenseSpice, args=(spice, self.amountBox.cget("text"),
+							                         tablespoonsButton['text'])).start(),
+							   controller.showFrame(waitingWin)]
         )
 		tablespoonsButton.grid(row=2, column=3, columnspan=2, sticky=tk.N)
 		
@@ -1520,7 +1521,7 @@ class amountMixDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 5)))
+            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), 5)
         )
 		plusFiveButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NW)
 		
@@ -1536,7 +1537,7 @@ class amountMixDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -1)))
+            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), -1)
         )
 		minusOneButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NW, padx=10)
 		
@@ -1552,7 +1553,7 @@ class amountMixDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -5)))
+            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), -5)
         )
 		minusFiveButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NE)
 		

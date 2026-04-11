@@ -110,29 +110,34 @@ class SpiceItUpBackend:
         self.housed = self.spiceBox['currentlyHoused']
         amount = int(amount)
         print(f"Box: {self.housed}\nAmount: {amount}\nSize: {size}\n")
+
+        if spice =="Empty":
+            print(f"Can not dispense empty spice.")
+            return
+        
         if self.housed == -1:
             print(f"Spice '{spice}' not housed, please house spice and try again.")
             return
 
-        if self.spiceBox['currentlyHoused'] in range (0,1):
+        if self.spiceBox['currentlyHoused'] in (0, 5):
             self.channel = 0
-        elif self.spiceBox['currentlyHoused'] in range (2,3):
+        elif self.spiceBox['currentlyHoused'] in (1,6):
             self.channel = 1
-        elif self.spiceBox['currentlyHoused'] in range (4,5):
+        elif self.spiceBox['currentlyHoused'] in (2,7):
             self.channel = 2
-        elif self.spiceBox['currentlyHoused'] in range (6,7):
+        elif self.spiceBox['currentlyHoused'] in (3,8):
             self.channel = 3
-        elif self.spiceBox['currentlyHoused'] in range (8,9):
+        elif self.spiceBox['currentlyHoused'] in (4,9):
             self.channel = 4
 
         self.timeToRun = self.calculateSpiceTime(amount, size, self.spiceBox['teaspoons/second'])
                 
         if self.spiceBox['currentlyHoused'] % 2 == 0:
-            # self.turnServo[self.channel].throttle = 0.2
+            # self.turnServo[self.channel].throttle = -0.2
             print("Turning servo forward...")
             time.sleep(self.timeToRun)
         else:
-            # self.turnServo[self.channel].throttle = -0.2
+            # self.turnServo[self.channel].throttle = 0.2
             print("Turning servo backward...")
             time.sleep(self.timeToRun)
 
@@ -154,5 +159,7 @@ class SpiceItUpBackend:
         return
     
     def updateAmountGUI(self, currentVal, delta):
-        new_value = max(0, currentVal + delta) # Prevents negative amounts
-        return new_value
+        print(f"Current Value: {currentVal}, Delta: {delta}")
+        newValue = max(0, currentVal + delta) # Prevents negative amounts
+        print(f"New Value: {newValue}")
+        return newValue
