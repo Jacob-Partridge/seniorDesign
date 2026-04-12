@@ -12,7 +12,7 @@ import sys
 import time # import time class
 import tkinter as tk # import tkinter package
 import backEnd # import backend class
-from threading import Thread, Semaphore # import threading classes for backend and GUI to run simultaneously
+from threading import Thread # import threading classes for backend and GUI to run simultaneously
 
 # class for animated GIFs
 # credit to: https://github.com/olesk75/AnimatedGIF  (saved my life)
@@ -307,7 +307,11 @@ def changeLayoutIndex(index):
 	changingLayout = index
 def changeLayoutLabel(spice):
     currentLayout[changingLayout] = spice
-
+	
+def startSingleThread(target, args):
+    global dispenseThread
+    dispenseThread = Thread(target=target, args=args)
+    dispenseThread.start()
 
 # created backend object to call backend functions from GUI
 backend = backEnd.SpiceItUpBackend()
@@ -316,6 +320,8 @@ backend.getRecipes() # testing getRecipes function in backend
 
 # global variable to store spice selection for dispensing
 spice = ''
+
+# Global variables to track when dispensing thread is complete
 
 
 # class for initiallizing all GUI frames and defining show_frame function
@@ -753,7 +759,8 @@ class layoutWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(startWin)
+            command = lambda: [backend.changeSpiceLayouts(currentLayout), 
+							   controller.showFrame(startWin)]
         )
 		confirm.grid(row=3, column=2, columnspan=3, sticky=tk.N)
 
@@ -1203,9 +1210,10 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: [Thread(target=backend.despenseSpice, args=(spice, self.amountBox.cget("text"),
-							                         teaspoonsButton['text'])).start(),
+            command = lambda: [startSingleThread(backend.despenseSpice, (spice, self.amountBox.cget("text"), teaspoonsButton['text'])),
+							   time.sleep(.5),
 							   controller.showFrame(waitingWin)]
+					   
         )
 		teaspoonsButton.grid(row=2, column=2, sticky=tk.N)
 		
@@ -1221,8 +1229,8 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: [Thread(target=backend.despenseSpice, args=(spice, self.amountBox.cget("text"),
-							                         tablespoonsButton['text'])).start(),
+            command = lambda: [startSingleThread(backend.despenseSpice, (spice, self.amountBox.cget("text"), tablespoonsButton['text'])),
+							   time.sleep(.5),
 							   controller.showFrame(waitingWin)]
         )
 		tablespoonsButton.grid(row=2, column=3, columnspan=2, sticky=tk.N)
@@ -1317,38 +1325,37 @@ class selectLayoutWin(tk.Frame):
 
 # class for waiting window
 class waitingWin(tk.Frame):
-	
-	def __init__(self, parent, controller):
-		tk.Frame.__init__(self, parent)
-		
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
         # settings of window
-		self.configure(background=bgColor)
+        self.configure(background=bgColor)
         # 4x5 grid
-		self.rowconfigure(0, weight=1)
-		self.rowconfigure(1, weight=1)
-		self.rowconfigure(2, weight=1)
-		self.rowconfigure(3, weight=1)
-		self.columnconfigure(0, weight=1)
-		self.columnconfigure(1, weight=1)
-		self.columnconfigure(2, weight=1)
-		self.columnconfigure(3, weight=1)
-		self.columnconfigure(4, weight=1)
+        self.rowconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=1)
+        self.rowconfigure(3, weight=1)
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=1)
+        self.columnconfigure(2, weight=1)
+        self.columnconfigure(3, weight=1)
+        self.columnconfigure(4, weight=1)
 
         # waiting text
-		dispensingTxts = ["Dispensing.", " Dispensing..", "  Dispensing..."]
-		dispensingTxt = AnimatedTxt(self, dispensingTxts, 1)
-		dispensingTxt.grid(row=1, column=1, columnspan=3, sticky=tk.S)
-		dispensingTxt.start()		
+        dispensingTxts = ["Dispensing.", " Dispensing..", "  Dispensing..."]
+        dispensingTxt = AnimatedTxt(self, dispensingTxts, 1)
+        dispensingTxt.grid(row=1, column=1, columnspan=3, sticky=tk.S)
+        dispensingTxt.start()
+        plsWaitTxt = tk.Label(self, text=" Please Wait :) ", font=titleFont, fg=fontColor, bg=bgColor)
+        plsWaitTxt.grid(row=2, column=1, columnspan=3, sticky=tk.N)
 
-		plsWaitTxt = tk.Label(self, text=" Please Wait :) ", font=titleFont, fg=fontColor, bg=bgColor)
-		plsWaitTxt.grid(row=2, column=1, columnspan=3, sticky=tk.N)
-		
-        # waiting GIF
-		# TO BE ADDED
-		
+        self.checkThread(controller)
         # switch to finishedWin when done dispensing
-		controller.after(6000, lambda: controller.showFrame(finishedWin))
 
+    def checkThread(self, controller):
+        if not dispenseThread.is_alive():
+            controller.showFrame(finishedWin)
+        else:
+            controller.after(100, lambda: self.checkThread(controller))
 
 # class for finished window
 class finishedWin(tk.Frame):

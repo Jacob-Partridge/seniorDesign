@@ -6,14 +6,6 @@ class SpiceItUpBackend:
         including calculating the time to run the servo for each spice, as well as keeping 
         track of the spice recipes. """
 
-    # Spice channel queues for the 5 spice channels, each channel can hold 2 spice boxes, 
-    # So we can have 10 spice boxes in total
-    channelOneQueue = []
-    channelTwoQueue = []
-    channelThreeQueue = []
-    channelFourQueue = []
-    channelFiveQueue = []
-
     def __init__(self):
         try: 
             print("Initializing backend...")
@@ -32,11 +24,11 @@ class SpiceItUpBackend:
             # We got the flow rate for salt and are using it as a baseline for the other spices, 
             # We can adjust the flow rates as we test the machine and get more accurate measurements for each spice
             self.spices = { 'Salt': {"teaspoons/second" : 7.5, # Fine Salt
-                                    "currentlyHoused" : 0,
+                                    "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
                             'Black Pepper': {"teaspoons/second" : 7.5, # Black Pepper
-                                    "currentlyHoused" : 1,
+                                    "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
                             'Garlic Powder': {"teaspoons/second" : 7.5, # Garlic Powder
@@ -77,10 +69,6 @@ class SpiceItUpBackend:
             return
         return
 
-    def addSpice(self, spiceName: str, teaspoonsPerSecond: float, currentlyHoused: int):
-        self.spices[spiceName] = { "teaspoons/second" : teaspoonsPerSecond, "currentlyHoused" : currentlyHoused}
-        return
-
     def addRecipe(self, recipeName: str, spiceList: list):
         self.recipes[recipeName] = spiceList
         return
@@ -97,40 +85,34 @@ class SpiceItUpBackend:
             print("Error in spice time calculation")
             return 0
         
-    def changeSpiceLayouts(self, newLayout: dict):
+    def changeSpiceLayouts(self, newLayout: list):
         # Assuming we are using the list to update the spice layout in the order of the spice dictionary
         # As well as changing the buttons in the frontend to reflect the new spice layout
-        for spice in self.spices:
-            self.spices[spice]['currentlyHoused'] = newLayout[spice]
-            spiceArrayForFrontend = [spice for spice in self.spices]
-        return
+        for key in self.spices.keys():
+            if key in newLayout:
+                self.spices[key]['currentlyHoused'] = newLayout.index(key) + 1
+            else:
+                self.spices[key]['currentlyHoused'] = -1
+
 
     def despenseSpice(self, spice: str, amount: str, size: str):
-        self.spiceBox = self.spices[f'{spice}']
-        self.housed = self.spiceBox['currentlyHoused']
-        amount = int(amount)
-        print(f"Box: {self.housed}\nAmount: {amount}\nSize: {size}\n")
-
-        if spice =="Empty":
+        if spice == "Empty":
             print(f"Can not dispense empty spice.")
             return
+        
+        self.spiceBox = self.spices[f'{spice}']
+        self.housed = self.spiceBox['currentlyHoused']
+        print(f"Box: {self.housed}\nAmount: {amount}\nSize: {size}\n")
         
         if self.housed == -1:
             print(f"Spice '{spice}' not housed, please house spice and try again.")
             return
+        
+        if self.housed % 2 == 0:
+            if self.spiceBox['currentlyHoused'] in range (1,9):
+                self.channel = self.spiceBox['currentlyHoused'] - 1
 
-        if self.spiceBox['currentlyHoused'] in (0, 5):
-            self.channel = 0
-        elif self.spiceBox['currentlyHoused'] in (1,6):
-            self.channel = 1
-        elif self.spiceBox['currentlyHoused'] in (2,7):
-            self.channel = 2
-        elif self.spiceBox['currentlyHoused'] in (3,8):
-            self.channel = 3
-        elif self.spiceBox['currentlyHoused'] in (4,9):
-            self.channel = 4
-
-        self.timeToRun = self.calculateSpiceTime(amount, size, self.spiceBox['teaspoons/second'])
+        self.timeToRun = self.calculateSpiceTime(float(amount), size, self.spiceBox['teaspoons/second'])
                 
         if self.spiceBox['currentlyHoused'] % 2 == 0:
             # self.turnServo[self.channel].throttle = -0.2
@@ -142,7 +124,7 @@ class SpiceItUpBackend:
             time.sleep(self.timeToRun)
 
         # self.turnServo[self.channel].throttle = 0.0
-        return True
+        return
     
     def getRecipes(self):
         self.recipe = {}
