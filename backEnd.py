@@ -127,18 +127,45 @@ class SpiceItUpBackend:
         return
     
     def getRecipes(self):
-        self.recipe = {}
-        with open('recipes.txt', 'r') as f:
-            self.recipeTxt =  f.read()
-            self.recipesTxt = self.recipeTxt.split('endRecipe')
-
-        for recipes in range (0, len(self.recipesTxt) - 1):
-            recipeSplit = self.recipesTxt[recipes].split('=')
-            recipeName = recipeSplit[0]
-            spiceList = recipeSplit[1].split(',')
-            self.recipes[recipeName] = spiceList
-        print(self.recipes)
-        return
+        self.recipes = {} 
+        try:
+            with open('recipes.txt', 'r') as f:
+                # 1. Split by 'endRecipe' to get each block
+                blocks = f.read().split('endRecipe')
+                
+            for block in blocks:
+                block = block.strip()
+                if '=' in block:
+                    # 2. Separate "Recipe Name" from the "Spice Data"
+                    name_part, data_part = block.split('=', 1)
+                    recipe_name = name_part.strip()
+                    
+                    recipe_spices = []
+                    
+                    # 3. Check if there are actually spices (handles "Recipe 2 =  ")
+                    data_part = data_part.strip()
+                    if data_part: 
+                        # Split by ';' to get each spice block
+                        spice_strings = data_part.split(';')
+                        
+                        for s in spice_strings:
+                            s = s.strip()
+                            if s: # Ignore empty strings from trailing semicolons
+                                # 4. Split by '|' to get Name, Amount, Unit
+                                # This also strips extra spaces from each item automatically
+                                spice_details = [item.strip() for item in s.split('|')]
+                                
+                                # Safety check: make sure we actually got 3 pieces of data
+                                if len(spice_details) == 3:
+                                    recipe_spices.append(spice_details)
+                    
+                    # 5. Store the list of spices in the dictionary
+                    self.recipes[recipe_name] = recipe_spices
+                    
+        except FileNotFoundError:
+            print("Error: recipes.txt not found.")
+            
+        return self.recipes
     
     def updateAmountGUI(self, currentVal, delta):
         print(f"Current Value: {currentVal}, Delta: {delta}")

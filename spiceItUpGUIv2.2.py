@@ -312,17 +312,24 @@ def startSingleThread(target, args):
     global dispenseThread
     dispenseThread = Thread(target=target, args=args)
     dispenseThread.start()
+	
+def setCurrentRecipe(recipe):
+    global currentRecipe
+    currentRecipe = recipe
 
 # created backend object to call backend functions from GUI
 backend = backEnd.SpiceItUpBackend()
 
-backend.getRecipes() # testing getRecipes function in backend
+recipes = backend.getRecipes() # testing getRecipes function in backend
+recipeNames = recipes.keys() # testing getRecipeNames function in backend
+recipeSpices = recipes.values() # testing getRecipeSpices function in backend
+
+print(recipeNames)
+print(recipeSpices)
+
 
 # global variable to store spice selection for dispensing
 spice = ''
-
-# Global variables to track when dispensing thread is complete
-
 
 # class for initiallizing all GUI frames and defining show_frame function
 class spiceItUpApp(tk.Tk):
@@ -1667,10 +1674,10 @@ class viewCustomWin(tk.Frame):
 		self.pixel = tk.PhotoImage(width=1, height=1) # invisible pixel for button appearance
 		pixel = self.pixel
 
-		for spice in spices:
+		for i, recipe in enumerate(recipeNames):
 			button = tk.Button(
 				frame,
-				text = spice,
+				text = recipe,
 				font = smallFont,
 				fg = fontColor,
 				bg = buttonColor,
@@ -1680,11 +1687,12 @@ class viewCustomWin(tk.Frame):
 				height = 340,
 				image = pixel,
 				compound = tk.CENTER,
-				command = lambda spice=spice: (
+				command = lambda recipe=recipe: [
+					setCurrentRecipe(recipe),
 					controller.showFrame(viewCustomDetailsWin)
-                )
+				]
             )
-			button.grid(row=0, column=spices.index(spice), padx=10)
+			button.grid(row=0, column=i, padx=10)
 			
 
 		frame.bind_children()
@@ -1726,7 +1734,7 @@ class viewCustomDetailsWin(tk.Frame):
 		self.columnconfigure(2, weight=1)
 
         # viewCustomDetailsWin title
-		title = tk.Label(self, text="Spice 1", font=titleFont, fg=fontColor, bg=bgColor)
+		title = tk.Label(self, text=currentRecipe, font=titleFont, fg=fontColor, bg=bgColor)
 		title.grid(row=0, column=0, columnspan=3, sticky=tk.N)
 		
         # scrollable frame for scrollable labels
@@ -1736,26 +1744,23 @@ class viewCustomDetailsWin(tk.Frame):
 		frame.grid_columnconfigure(1, weight=1)
 
 
-        # temporary array for testing
-		spiceMix = [['Salt', 2, 'Tablespoons'], ['Black Pepper', 1, 'Tablespoons'], ['Spice 4', 1, 'Teaspoon'], ['Spice 8', 3, 'Tablespoons'], ['Spice 10', 1, 'Tablespoons']]
-        
         # display spices in scrollable frame
-		for spice in spiceMix:
+		for i, spice in enumerate(recipes[currentRecipe]):
 			spiceName = tk.Label(
             frame,
             text=spice[0],
-            font=regularFont,
+            font=smallFont,
             fg=fontColor,
             bg=buttonColor)
-			spiceName.grid(row=spiceMix.index(spice), column=0, padx=10, pady=10, sticky=tk.W)
+			spiceName.grid(row=i, column=0, padx=10, pady=10, sticky=tk.W)
 			
 			spiceMeasurements = tk.Label(
                 frame,
-                text=str(spice[1]) + ' ' + spice[2],
-                font=regularFont,
+                text=f"{spice[1]} {spice[2]}",
+                font=smallFont,
                 fg=fontColor,
                 bg=buttonColor)
-			spiceMeasurements.grid(row=spiceMix.index(spice), column=1, padx=10, pady=10, sticky=tk.E)
+			spiceMeasurements.grid(row=i, column=1, padx=10, pady=10, sticky=tk.E)
 			
 		frame.bind_children()
 
