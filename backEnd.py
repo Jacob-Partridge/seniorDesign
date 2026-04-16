@@ -1,4 +1,5 @@
 import time
+from threading import Thread
 # from adafruit_servokit import ServoKit
 
 class SpiceItUpBackend:
@@ -108,9 +109,8 @@ class SpiceItUpBackend:
             print(f"Spice '{spice}' not housed, please house spice and try again.")
             return
         
-        if self.housed % 2 == 0:
-            if self.spiceBox['currentlyHoused'] in range (1,9):
-                self.channel = self.spiceBox['currentlyHoused'] - 1
+        if self.spiceBox['currentlyHoused'] in range (1,9):
+            self.channel = self.spiceBox['currentlyHoused'] - 1
 
         self.timeToRun = self.calculateSpiceTime(float(amount), size, self.spiceBox['teaspoons/second'])
                 
@@ -124,6 +124,16 @@ class SpiceItUpBackend:
             time.sleep(self.timeToRun)
 
         # self.turnServo[self.channel].throttle = 0.0
+        return
+    
+    def dispenseRecipe(self, recipeSpices: list):
+        if recipeSpices not in self.recipes:
+            print(f"Recipe '{recipeSpices}' not found.")
+            return
+        for spice in self.recipes[recipeSpices]:
+            thread = Thread(target=self.despenseSpice, args=(spice[0], spice[1], spice[2]))
+            thread.start()
+        thread.join()
         return
     
     def getRecipes(self):

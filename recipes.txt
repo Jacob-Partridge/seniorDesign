@@ -1,5 +1,30 @@
-Spice Cajun Chicken = Spice 1|2|Tablespoons; Spice3|1|Tablespoons; Spice4|1|Teaspoon; Spice8|3|Tablespoons; Spice10|1|Tablespoons
+Taco Seasoning = Chili Powder|2|Tablespoon; Cumin|1|Tablespoon; Garlic Powder|2|Teaspoon; Onion Powder|2|Teaspoon; Papria|1|Teaspoon; Salt|1|Teaspoon; Black Pepper|.5|Teaspoon
 endRecipe
 
-Recipe 2 =  
+BBQ Rub = Paprika|2|Tablespoon; Brown Sugar|1|Tablespoon; Garlic Powder|2|Teaspoon; Onion Powder|2|Teaspoon; Chili Powder|1|Teaspoon; Salt|1|Teaspoon; Black Pepper|1|Teaspoon
 endRecipe
+
+Italian Herb Chicken = Dried Oregano|2|Tablespoon; Garlic Powder|1|Tablespoon; Onion Powder|2|Teaspoon; Salt|1|Teaspoon; Black Pepper|1|Teaspoon; Paprika|1|Teaspoon
+endRecipe
+
+Cajun Potatoes = Paprika|2|Tablespoon; Chili Powder|1|Tablespoon; Garlic Powder|2|Teaspoon; Onion Powder|2|Teaspoon; Salt|1|Teaspoon; Black Pepper|1|Teaspoon
+endRecipe
+
+Stir Fry = Ground Ginger|2|Tablespoon; Brown Sugar|1|Tablespoon; Garlic Powder|2|Teaspoon; Salt|1|Teaspoon; Black Pepper|.5|Teaspoon
+endRecipe
+
+Chili Blend = Chili Powder|2|Tablespoon; Cumin|1|Tablespoon; Paprika|1|Tablespoon; Garlic Powder|2|Teaspoon; Onion Powder|2|Teaspoon; Salt|1|Teaspoon
+endRecipe
+
+Steak Rub = Paprika|1|Tablespoon; Black Pepper|1|Tablespoon; Garlic Powder|2|Teaspoon; Brown Sugar|1|Tablespoon; Salt|2|Teaspoon
+endRecipe
+
+Roasted Veggies = Dried Oregano|2|Tablespoon; Paprika|1|Tablespoon; Garlic Powder|2|Teaspoon; Salt|1|Teaspoon; Black Pepper|.5|Teaspoon
+endRecipe
+
+Rice Seasoning = Garlic Powder|1|Tablespoon; Onion Powder|1|Tablespoon; Paprika|2|Teaspoon; Salt|1|Teaspoon; Black Pepper|.5|Teaspoon
+endRecipe
+
+Pancake = Brown Sugar|2|Tablespoon; Ground Ginger|1|Tablespoon
+endRecipe
+
