@@ -1133,11 +1133,11 @@ class amountDispenseWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 1)))
         )
-		plusOneButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NE, padx=10)
+		plusOneButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NE, padx=10)
 		
-		plusFiveButton = tk.Button(
+		plusQuarterButton = tk.Button(
 			self, 
-            text = "+5", 
+            text = "+.25", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -1147,9 +1147,9 @@ class amountDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 5)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 0.25)))
         )
-		plusFiveButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NW)
+		plusQuarterButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NW)
 		
 		minusOneButton = tk.Button(
 			self, 
@@ -1165,11 +1165,11 @@ class amountDispenseWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -1)))
         )
-		minusOneButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NW, padx=10)
+		minusOneButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NW, padx=10)
 		
-		minusFiveButton = tk.Button(
+		minusQuarterButton = tk.Button(
 			self, 
-            text = "-5", 
+            text = "-.25", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -1179,9 +1179,9 @@ class amountDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -5)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -0.25)))
         )
-		minusFiveButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NE)
+		minusQuarterButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NE)
 		
 		gramsButton = tk.Button(
 			self, 
@@ -1626,9 +1626,9 @@ class amountMixDispenseWin(tk.Frame):
         )
 		plusOneButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NE, padx=10)
 		
-		plusFiveButton = tk.Button(
+		plusQuarterButton = tk.Button(
 			self, 
-            text = "+5", 
+            text = "+.25", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -1638,9 +1638,9 @@ class amountMixDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), 5)
+            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), 0.25)
         )
-		plusFiveButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NW)
+		plusQuarterButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NW)
 		
 		minusOneButton = tk.Button(
 			self, 
@@ -1658,9 +1658,9 @@ class amountMixDispenseWin(tk.Frame):
         )
 		minusOneButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NW, padx=10)
 		
-		minusFiveButton = tk.Button(
+		minusQuarterButton = tk.Button(
 			self, 
-            text = "-5", 
+            text = "-.25", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -1670,9 +1670,9 @@ class amountMixDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), -5)
+            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), -0.25)
         )
-		minusFiveButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NE)
+		minusQuarterButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NE)
 		
 		gramsButton = tk.Button(
 			self, 
@@ -2406,11 +2406,11 @@ class customAmountWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 1)))
         )
-		plusOneButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NE, padx=10)
+		plusOneButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NE, padx=10)
 		
-		plusFiveButton = tk.Button(
+		plusQuarterButton = tk.Button(
 			self, 
-            text = "+5", 
+            text = "+.25", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -2420,9 +2420,9 @@ class customAmountWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 5)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 0.25)))
         )
-		plusFiveButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NW)
+		plusQuarterButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NW)
 		
 		minusOneButton = tk.Button(
 			self, 
@@ -2438,11 +2438,11 @@ class customAmountWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -1)))
         )
-		minusOneButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NW, padx=10)
+		minusOneButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NW, padx=10)
 		
-		minusFiveButton = tk.Button(
+		minusQuarterButton = tk.Button(
 			self, 
-            text = "-5", 
+            text = "-.25", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -2452,9 +2452,9 @@ class customAmountWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -5)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -0.25)))
         )
-		minusFiveButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NE)
+		minusQuarterButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NE)
 		
 		gramsButton = tk.Button(
 			self, 
