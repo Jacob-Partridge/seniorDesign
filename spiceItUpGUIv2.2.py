@@ -2416,10 +2416,8 @@ class customAmountWin(tk.Frame):
         )
 		back.grid(row=3, column=2, sticky=tk.N)
 
-
 # class for naming mix window (add)
-# WIP
-# NEED TO ADD LABEL TO DISPLAY NAME + ON-SCREEN KEYBOARD
+# referenced: https://github.com/GihanSAOnline/onscreen-keyboard (they highkey ate)
 class customNameWin(tk.Frame):
 	
 	def __init__(self, parent, controller):
@@ -2427,25 +2425,69 @@ class customNameWin(tk.Frame):
 		
         # settings of window
 		self.configure(background=bgColor)
-        # 4x5 grid
+        # 8x14 grid
 		self.rowconfigure(0, weight=1)
 		self.rowconfigure(1, weight=1)
 		self.rowconfigure(2, weight=1)
 		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+		self.rowconfigure(6, weight=1)
+		self.rowconfigure(7, weight=1)
 		self.columnconfigure(0, weight=1)
 		self.columnconfigure(1, weight=1)
 		self.columnconfigure(2, weight=1)
 		self.columnconfigure(3, weight=1)
 		self.columnconfigure(4, weight=1)
+		self.columnconfigure(5, weight=1)
+		self.columnconfigure(6, weight=1)
+		self.columnconfigure(7, weight=1)
+		self.columnconfigure(8, weight=1)
+		self.columnconfigure(9, weight=1)
+		self.columnconfigure(10, weight=1)
+		self.columnconfigure(11, weight=1)
+		self.columnconfigure(12, weight=1)
+		self.columnconfigure(13, weight=1)
 
         # text
-		removeTxt = tk.Label(self, text="WIP\nEnter name of\ncustom spice:", font=titleFont, fg=fontColor, bg=bgColor)
-		removeTxt.grid(row=1, column=1, columnspan=3, sticky=tk.S)
+		titleTxt = tk.Label(self, text="Name your mix!", font=titleFont, fg=fontColor, bg=bgColor)
+		titleTxt.grid(row=0, column=0, columnspan=14, sticky=tk.S)
 		
-        # buttons
+        # label to display user input
+		self.nameTxtbx = tk.Label(self, text="", font=regularFont, fg=fontColor, bg=buttonColor)
+		self.nameTxtbx.grid(row=1, column=3, columnspan=8, sticky=tk.EW)
+
+        # max length that the spice name can be
+		maxLen = 26
+		
 		self.pixel = tk.PhotoImage(width=1, height=1) # invisible pixel for button appearance
 		pixel = self.pixel
+
+        # track if keyboard is uppercase or lowercase
+		self.isUpper = True
+		# empty array for keyboard keys
+		self.keys = []
 		
+		self.makeKeyboard(controller)
+        
+		# space key
+		space = tk.Button(
+			self,
+			text = "Space",
+			font = smallFont,
+			fg = fontColor,
+			bg = buttonColor,
+			activeforeground = pressedFont,
+			activebackground = pressedButton,
+			width = 363,
+			height = 75,
+			image = pixel,
+			compound = tk.CENTER,
+			command = lambda: self.nameTxtbx.config(text=(self.nameTxtbx.cget('text') + ' ' if len(self.nameTxtbx.cget('text')) < maxLen else self.nameTxtbx.cget('text')))
+        )
+		space.grid(row=5, column=5, columnspan=4, sticky=tk.N)
+
+        # confirm button
 		confirm = tk.Button(
 			self,
 			text = "Confirm",
@@ -2454,15 +2496,16 @@ class customNameWin(tk.Frame):
 			bg = buttonColor,
 			activeforeground = pressedFont,
 			activebackground = pressedButton,
-			width = 340,
-			height = 100,
+			width = 250,
+			height = 75,
 			image = pixel,
 			compound = tk.CENTER,
 			command = lambda: controller.showFrame(customMixesWin)
 
         )
-		confirm.grid(row=3, column=3, columnspan=1, sticky=tk.N)
+		confirm.grid(row=5, column=10, columnspan=2, sticky=tk.S)
 
+        # back button
 		back = tk.Button(
 			self, 
             text = "Back", 
@@ -2471,13 +2514,174 @@ class customNameWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 340,
-            height = 100,
+            width = 250,
+            height = 75,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: controller.showFrame(addCustomDetailsWin)
         )
-		back.grid(row=3, column=1, columnspan=1, sticky=tk.N)
+		back.grid(row=5, column=1, columnspan=3, sticky=tk.SE)
+		
+    # function to make keyboard
+	def makeKeyboard(self, controller):
+		# destroy existing keyboard
+		for key in self.keys:
+			key.destroy()
+		self.keys.clear()
+
+
+        # max length that the spice name can be
+		maxLen = 26
+
+		# keyboard row layouts
+		if self.isUpper == True:
+			row1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'Backspace']
+			row2 = ['', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Uppercase']
+			row3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M', "-", 'Lowercase']
+		else:  
+			row1 = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'Backspace']
+			row2 = ['', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Uppercase']
+			row3 = ['z', 'x', 'c', 'v', 'b', 'n', 'm', "-", 'Lowercase']
+			
+		pixel = self.pixel # invisible pixel for button appearance
+		
+        # keyboard row 1
+		for i, key in enumerate(row1):
+			if key == 'Backspace':
+				keyButton = tk.Button(
+                    self,
+                    text = key,
+                    font = smallFont,
+                    fg = fontColor,
+                    bg = buttonColor,
+                    activeforeground = pressedFont,
+                    activebackground = pressedButton,
+                    width = 190,
+                    height = 75,
+                    image = pixel,
+                    compound = tk.CENTER,
+                    command = lambda: self.nameTxtbx.config(text=self.nameTxtbx.cget('text')[:-1] if self.nameTxtbx.cget('text') else "")
+                )
+				keyButton.grid(row=2, column=1+i, columnspan=2, sticky=tk.S)
+				self.keys.append(keyButton)
+			else:
+				keyButton = tk.Button(
+                    self,
+                    text = key,
+                    font = regularFont,
+                    fg = fontColor,
+                    bg = buttonColor,
+                    activeforeground = pressedFont,
+                    activebackground = pressedButton,
+                    width = 75,
+                    height = 75,
+                    image = pixel,
+                    compound = tk.CENTER,
+                    command = lambda key=key: self.nameTxtbx.config(text=(self.nameTxtbx.cget('text') + key if len(self.nameTxtbx.cget('text')) < maxLen else self.nameTxtbx.cget('text')))
+                )
+				keyButton.grid(row=2, column=1+i, sticky=tk.S)
+				self.keys.append(keyButton)
+
+        # keyboard row 2
+		for i, key in enumerate(row2):
+			if key == 'Uppercase':
+				keyButton = tk.Button(
+                    self,
+                    text = key,
+                    font = smallFont,
+                    fg = fontColor,
+                    bg = buttonColor,
+                    activeforeground = pressedFont,
+                    activebackground = pressedButton,
+                    width = 190,
+                    height = 75,
+                    image = pixel,
+                    compound = tk.CENTER,
+                    command = lambda: self.toggleCaseUpper(controller)
+                )
+				keyButton.grid(row=3, column=i, columnspan=3)
+				self.keys.append(keyButton)
+			elif key == '':
+				keyButton = tk.Button(
+                    self,
+                    text = key,
+                    font = smallFont,
+                    fg = fontColor,
+                    bg = bgColor,
+                    activeforeground = pressedFont,
+                    activebackground = bgColor,
+                    width = 37.5,
+                    height = 75,
+                    image = pixel,
+                    compound = tk.CENTER,
+					highlightthickness = 0,
+					bd = 0,
+                )
+				keyButton.grid(row=3, column=i, columnspan=2)
+				self.keys.append(keyButton)
+			else:
+				keyButton = tk.Button(
+                    self,
+                    text = key,
+                    font = regularFont,
+                    fg = fontColor,
+                    bg = buttonColor,
+                    activeforeground = pressedFont,
+                    activebackground = pressedButton,
+                    width = 75,
+                    height = 75,
+                    image = pixel,
+                    compound = tk.CENTER,
+                    command = lambda key=key: self.nameTxtbx.config(text=(self.nameTxtbx.cget('text') + key if len(self.nameTxtbx.cget('text')) < maxLen else self.nameTxtbx.cget('text')))
+                )
+				keyButton.grid(row=3, column=i, columnspan=2)
+				self.keys.append(keyButton)
+				
+		# keyboard row 3
+		for i, key in enumerate(row3):
+			if key == 'Lowercase':
+				keyButton = tk.Button(
+                    self,
+                    text = key,
+                    font = smallFont,
+                    fg = fontColor,
+                    bg = buttonColor,
+                    activeforeground = pressedFont,
+                    activebackground = pressedButton,
+                    width = 190,
+                    height = 75,
+                    image = pixel,
+                    compound = tk.CENTER,
+                    command = lambda: self.toggleCaseLower(controller)
+                )
+				keyButton.grid(row=4, column=2+i, columnspan=2, sticky=tk.NW, padx=20)
+				self.keys.append(keyButton)
+			else:
+				keyButton = tk.Button(
+                    self,
+                    text = key,
+                    font = regularFont,
+                    fg = fontColor,
+                    bg = buttonColor,
+                    activeforeground = pressedFont,
+                    activebackground = pressedButton,
+                    width = 75,
+                    height = 75,
+                    image = pixel,
+                    compound = tk.CENTER,
+                    command = lambda key=key: self.nameTxtbx.config(text=(self.nameTxtbx.cget('text') + key if len(self.nameTxtbx.cget('text')) < maxLen else self.nameTxtbx.cget('text')))
+                )
+				keyButton.grid(row=4, column=2+i, sticky=tk.N)
+				self.keys.append(keyButton)
+				
+    # functions to toggle keyboard case
+	def toggleCaseUpper(self, controller):
+		self.isUpper = True
+		self.makeKeyboard(controller)
+		
+	def toggleCaseLower(self, controller):
+		self.isUpper = False
+		self.makeKeyboard(controller)
 		
 
 # class for no spice error message window
