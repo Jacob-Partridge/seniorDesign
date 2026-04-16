@@ -324,10 +324,6 @@ recipes = backend.getRecipes() # testing getRecipes function in backend
 recipeNames = recipes.keys() # testing getRecipeNames function in backend
 recipeSpices = recipes.values() # testing getRecipeSpices function in backend
 
-for recipe in recipes:
-    print(recipes[recipe])
-
-
 # global variable to store spice selection for dispensing
 spice = ''
 
@@ -1442,6 +1438,7 @@ class selectMixDispenseWin(tk.Frame):
 				height = 340,
 				image = pixel,
 				compound = tk.CENTER,
+				wraplength=330,
 				command = lambda recipe=recipe: ([
 					setCurrentRecipe(recipe),
 					controller.showFrame(ammountRecipeDispenseWin)
@@ -1791,6 +1788,7 @@ class viewCustomWin(tk.Frame):
 				activebackground = pressedButton,
 				width = 340,
 				height = 340,
+				wraplength=330,
 				image = pixel,
 				compound = tk.CENTER,
 				command = lambda recipe=recipe: [
