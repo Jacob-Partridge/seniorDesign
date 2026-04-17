@@ -298,7 +298,7 @@ winHeight = 720
 
 
 # global array for layout spice names
-spices = ["Empty", "Salt", "Black\nPepper", "Garlic\nPowder", "Onion\nPowder", "Paprika", "Cumin", "Chili\nPowder", "Ground\nGinger", "Dried\nOregeno", "Brown\nSugar"]
+spices = ["Empty", "Salt", "Black Pepper", "Garlic Powder", "Onion Powder", "Paprika", "Cumin", "Chili Powder", "Ground Ginger", "Dried Oregano", "Brown Sugar"]
 # global array for current spice layout
 currentLayout = ["Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty"]
 # functions for changing layout buttons
@@ -570,6 +570,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -589,6 +590,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -608,6 +610,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -627,6 +630,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -646,6 +650,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -665,6 +670,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -684,6 +690,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -703,6 +710,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -722,6 +730,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -741,6 +750,7 @@ class layoutWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -903,6 +913,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -920,6 +931,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -937,6 +949,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -954,6 +967,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -971,6 +985,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -988,6 +1003,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+            wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -1005,6 +1021,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
 			
@@ -1023,6 +1040,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -1040,6 +1058,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+            wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -1057,6 +1076,7 @@ class selectDispenseWin(tk.Frame):
             activebackground = pressedButton,
             width = 160,
             height = 160,
+			wraplength=150,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -1551,8 +1571,8 @@ class ammountRecipeDispenseWin(tk.Frame):
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: [controller.showFrame(dispenseSpiceWin),
-							   startSingleThread(backend.dispenseRecipe, (recipes[currentRecipe],))]
+            command = lambda: [startSingleThread(backend.dispenseRecipe, (recipes[currentRecipe],)),
+							   controller.showFrame(waitingWin)]
         )   
         confirmButton.grid(row=2, rowspan=1, column=2, columnspan=1, sticky=tk.N)
 

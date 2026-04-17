@@ -52,7 +52,7 @@ class SpiceItUpBackend:
                                     "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
-                            'Cayenne Pepper': {"teaspoons/second" : 7.5, # Cayenne Pepper
+                            'Ground Ginger': {"teaspoons/second" : 7.5, # Ground Ginger
                                     "currentlyHoused" : -1,
                                     "conversionConstant" : 1},
 
@@ -127,10 +127,14 @@ class SpiceItUpBackend:
         return
     
     def dispenseRecipe(self, recipeSpices: list):
-        if recipeSpices not in self.recipes:
-            print(f"Recipe '{recipeSpices}' not found.")
-            return
-        for spice in self.recipes[recipeSpices]:
+        for i in range(len(recipeSpices)):
+            spice = recipeSpices[i][0]
+            if self.spices[spice]['currentlyHoused'] == -1:
+                print(f"Spice '{recipeSpices[i][0]}' not housed.")
+                print(f"{self.spices[spice]['currentlyHoused']}")
+                return
+        for i in range(len(recipeSpices)):
+            spice = recipeSpices[i]
             thread = Thread(target=self.despenseSpice, args=(spice[0], spice[1], spice[2]))
             thread.start()
         thread.join()
