@@ -1,6 +1,6 @@
 #########################################################################################################
 # DETAILS                                                                                               #
-# - spiceItUpGUIv2.2                                                                                   #
+# - spiceItUpGUIv2.2                                                                                    #
 # - based on figma sketch & spiceItUpGUIv2.1                                                            #
 # - uses python's Tkinter library                                                                       #
 # - meant for testing and integrating backend                                                           #
@@ -1153,11 +1153,11 @@ class amountDispenseWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 1)))
         )
-		plusOneButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NE, padx=10)
+		plusOneButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NW, padx=10)
 		
 		plusQuarterButton = tk.Button(
 			self, 
-            text = "+.25", 
+            text = "+0.25", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -1169,7 +1169,7 @@ class amountDispenseWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 0.25)))
         )
-		plusQuarterButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NW)
+		plusQuarterButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NE, padx=10)
 		
 		minusOneButton = tk.Button(
 			self, 
@@ -1185,11 +1185,11 @@ class amountDispenseWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -1)))
         )
-		minusOneButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NW, padx=10)
+		minusOneButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NE, padx=10)
 		
 		minusQuarterButton = tk.Button(
 			self, 
-            text = "-.25", 
+            text = "-0.25", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -1201,7 +1201,7 @@ class amountDispenseWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -0.25)))
         )
-		minusQuarterButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NE)
+		minusQuarterButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NW, padx=10)
 		
 		gramsButton = tk.Button(
 			self, 
@@ -1380,6 +1380,7 @@ class waitingWin(tk.Frame):
         else:
             controller.after(100, lambda: self.checkThread(controller))
 
+
 # class for finished window
 class finishedWin(tk.Frame):
 	
@@ -1414,8 +1415,6 @@ class finishedWin(tk.Frame):
 
 
 # class for spice mix selection window (dispense mix)
-# WIP
-# NEED TO FIX BUTTON LABELS
 class selectMixDispenseWin(tk.Frame):
 	
 	def __init__(self, parent, controller):
@@ -1461,7 +1460,7 @@ class selectMixDispenseWin(tk.Frame):
 				wraplength=330,
 				command = lambda recipe=recipe: ([
 					setCurrentRecipe(recipe),
-					controller.showFrame(ammountRecipeDispenseWin)
+					controller.showFrame(amountRecipeDispenseWin)
 				    ]
                 )
             )
@@ -1488,7 +1487,8 @@ class selectMixDispenseWin(tk.Frame):
 		back.grid(row=3, column=1, columnspan=1)
 
 
-class ammountRecipeDispenseWin(tk.Frame):
+# class for select amount window (dispense mix)
+class amountRecipeDispenseWin(tk.Frame):
 	
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -1509,8 +1509,8 @@ class ammountRecipeDispenseWin(tk.Frame):
         # amountRecipeDispenseWin title
         title = tk.Label(self, text="Select Serving Size", font=titleFont, fg=fontColor, bg=bgColor)
         title.grid(row=0, column=0, columnspan=5, sticky=tk.N)
-        # amountDispenseWin textbox
 		
+        # amountDispenseWin textbox
         self.amountBox = tk.Label(
 			self,
 			font = regularFont,
@@ -1519,8 +1519,10 @@ class ammountRecipeDispenseWin(tk.Frame):
 			width = 10,
 			text="0"
 		)
-		
         self.amountBox.grid(row=1, rowspan=1, column=2, columnspan=1, sticky=tk.N)
+		
+        # lilGuy GIF
+		# TO BE ADDED
 		
         self.pixel = tk.PhotoImage(width=1, height=1) # invisible pixel for button appearance
         pixel = self.pixel
@@ -1539,12 +1541,11 @@ class ammountRecipeDispenseWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 1)))
         )
-		
-        plusOneButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NE, padx=10)
+        plusOneButton.grid(row=1, rowspan=1, column=3, columnspan=2, sticky=tk.N)
 
         minusOneButton = tk.Button(
             self,
-			text = "+1",
+			text = "-1",
             font = regularFont,
             fg = fontColor,
             bg = buttonColor,
@@ -1556,8 +1557,7 @@ class ammountRecipeDispenseWin(tk.Frame):
             compound = tk.CENTER,
             command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -1)))
         )
-
-        minusOneButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NW, padx=10)
+        minusOneButton.grid(row=1, rowspan=1, column=0, columnspan=2, sticky=tk.N)
 		
         confirmButton = tk.Button(
             self,
@@ -1567,14 +1567,14 @@ class ammountRecipeDispenseWin(tk.Frame):
             bg = buttonColor,
             activeforeground = pressedFont,
             activebackground = pressedButton,
-            width = 320,
-            height = 160,
+            width = 340,
+            height = 100,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [startSingleThread(backend.dispenseRecipe, (recipes[currentRecipe],)),
 							   controller.showFrame(waitingWin)]
         )   
-        confirmButton.grid(row=2, rowspan=1, column=2, columnspan=1, sticky=tk.N)
+        confirmButton.grid(row=2, rowspan=1, column=3, columnspan=2, sticky=tk.S)
 
         backButton = tk.Button(
             self,
@@ -1584,190 +1584,16 @@ class ammountRecipeDispenseWin(tk.Frame):
             bg = buttonColor,
             activeforeground = pressedFont,
             activebackground = pressedButton,
-            width = 320,
-            height = 160,
+            width = 340,
+            height = 100,
 			image=pixel,
             compound=tk.CENTER,
 			command=lambda: controller.showFrame(selectMixDispenseWin)
         )
-        backButton.grid(row=3, rowspan=1, column=2, columnspan=1, sticky=tk.N)
-
-# class for select amount window (dispense mix)
-class amountMixDispenseWin(tk.Frame):
-	
-	def __init__(self, parent, controller):
-		tk.Frame.__init__(self, parent)
-		
-        # settings of select amount window
-		self.configure(background=bgColor)
-        # 4x5 grid
-		self.rowconfigure(0, weight=1)
-		self.rowconfigure(1, weight=1)
-		self.rowconfigure(2, weight=1)
-		self.rowconfigure(3, weight=1)
-		self.columnconfigure(0, weight=1)
-		self.columnconfigure(1, weight=1)
-		self.columnconfigure(2, weight=1)
-		self.columnconfigure(3, weight=1)
-		self.columnconfigure(4, weight=1)
-
-        # amountDispenseWin title
-		title = tk.Label(self, text="Select Amount", font=titleFont, fg=fontColor, bg=bgColor)
-		title.grid(row=0, column=0, columnspan=5, sticky=tk.N)
-
-        # amountDispenseWin textbox
-		self.amountBox = tk.Label(
-			self,
-			font = regularFont,
-			fg = fontColor,
-			bg = buttonColor,
-			width = 10,
-			text="0"
-		)
-		self.amountBox.grid(row=1, rowspan=1, column=2, columnspan=1, sticky=tk.N)
-
-        # amountDispenseWin buttons
-		self.pixel = tk.PhotoImage(width=1, height=1) # invisible pixel for button appearance
-		pixel = self.pixel
-
-		plusOneButton = tk.Button(
-			self, 
-            text = "+1", 
-            font = regularFont, 
-            fg = fontColor, 
-            bg = buttonColor, 
-            activeforeground = pressedFont, 
-            activebackground = pressedButton,
-            width = 160,
-            height = 160,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 1)))
-        )
-		plusOneButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NE, padx=10)
-		
-		plusQuarterButton = tk.Button(
-			self, 
-            text = "+.25", 
-            font = regularFont, 
-            fg = fontColor, 
-            bg = buttonColor, 
-            activeforeground = pressedFont, 
-            activebackground = pressedButton,
-            width = 160,
-            height = 160,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), 0.25)
-        )
-		plusQuarterButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NW)
-		
-		minusOneButton = tk.Button(
-			self, 
-            text = "-1", 
-            font = regularFont, 
-            fg = fontColor, 
-            bg = buttonColor, 
-            activeforeground = pressedFont, 
-            activebackground = pressedButton,
-            width = 160,
-            height = 160,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), -1)
-        )
-		minusOneButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NW, padx=10)
-		
-		minusQuarterButton = tk.Button(
-			self, 
-            text = "-.25", 
-            font = regularFont, 
-            fg = fontColor, 
-            bg = buttonColor, 
-            activeforeground = pressedFont, 
-            activebackground = pressedButton,
-            width = 160,
-            height = 160,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: backend.updateAmountGUI(int(self.amountBox.cget("text")), -0.25)
-        )
-		minusQuarterButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NE)
-		
-		gramsButton = tk.Button(
-			self, 
-            text = "Grams", 
-            font = regularFont, 
-            fg = fontColor, 
-            bg = buttonColor, 
-            activeforeground = pressedFont, 
-            activebackground = pressedButton,
-            width = 340,
-            height = 100,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: [controller.showFrame(waitingWin),
-                               backend.despenseSpice(spice, self.amountBox.cget("text"),
-													 gramsButton['text'])]
-        )
-		gramsButton.grid(row=2, column=0, columnspan=2, sticky=tk.N)
-		
-		teaspoonsButton = tk.Button(
-            self,
-            text= "Teaspoons",
-            font = regularFont,
-            fg = fontColor,
-            bg = buttonColor,
-            activeforeground = pressedFont,
-            activebackground = pressedButton,
-            width = 340,
-            height = 100,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: [controller.showFrame(waitingWin),
-							   backend.despenseSpice(spice, self.amountBox.cget("text"),
-							                         teaspoonsButton['text'])]
-        )
-		teaspoonsButton.grid(row=2, column=2, sticky=tk.N)
-		
-		tablespoonsButton = tk.Button(
-            self,
-            text= "Tablespoons",
-            font = regularFont,
-            fg = fontColor,
-            bg = buttonColor,
-            activeforeground = pressedFont,
-            activebackground = pressedButton,
-            width = 340,
-            height = 100,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: [controller.showFrame(waitingWin),
-							   backend.despenseSpice(spice, self.amountBox.cget("text"),
-							                         tablespoonsButton['text'])]
-        )
-		tablespoonsButton.grid(row=2, column=3, columnspan=2, sticky=tk.N)
-		
-		back = tk.Button(
-            self,
-            text= "Back",
-            font = regularFont,
-            fg = fontColor,
-            bg = buttonColor,
-            activeforeground = pressedFont,
-            activebackground = pressedButton,
-            width = 340,
-            height = 100,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: controller.showFrame(selectMixDispenseWin)
-        )
-		back.grid(row=3, column=2, sticky=tk.N)
+        backButton.grid(row=2, rowspan=1, column=0, columnspan=2, sticky=tk.S)
 
 
 # class for view custom mixes window (view)
-# WIP
-# NEED TO FIX BUTTON LABELS
 class viewCustomWin(tk.Frame):
 	
 	def __init__(self, parent, controller):
@@ -1840,7 +1666,6 @@ class viewCustomWin(tk.Frame):
 
 
 # class for view details of custom mix window (view)
-# WIP
 class viewCustomDetailsWin(tk.Frame):
 	
 	def __init__(self, parent, controller):
@@ -2052,7 +1877,6 @@ class deleteWin(tk.Frame):
 		
 
 # class for view details of custom mix window (add)
-# WIP
 class addCustomDetailsWin(tk.Frame):
 	
 	def __init__(self, parent, controller):
@@ -2539,6 +2363,7 @@ class customAmountWin(tk.Frame):
             command = lambda: controller.showFrame(customSelectSpiceWin)
         )
 		back.grid(row=3, column=2, sticky=tk.N)
+
 
 # class for naming mix window (add)
 # referenced: https://github.com/GihanSAOnline/onscreen-keyboard (they highkey ate)
