@@ -17,4 +17,3 @@ Roasted Veggies = Dried Oregano|2|Tablespoons; Paprika|1|Tablespoons; Garlic Pow
 Rice Seasoning = Garlic Powder|1|Tablespoons; Onion Powder|1|Tablespoons; Paprika|2|Teaspoons; Salt|1|Teaspoons; Black Pepper|.5|Teaspoons endRecipe
 
 Pancake = Brown Sugar|2|Tablespoons; Ground Ginger|1|Tablespoons endRecipe
-

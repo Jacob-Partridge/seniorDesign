@@ -299,12 +299,20 @@ winHeight = 720
 
 # global array for layout spice names
 spices = ["Empty", "Salt", "Black Pepper", "Garlic Powder", "Onion Powder", "Paprika", "Cumin", "Chili Powder", "Ground Ginger", "Dried Oregano", "Brown Sugar"]
+
 # global array for current spice layout
 currentLayout = ["Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty", "Empty"]
+
 # functions for changing layout buttons
+recipeArray = []
+
+# created backend object to call backend functions from GUI
+backend = backEnd.SpiceItUpBackend()
+
 def changeLayoutIndex(index):
 	global changingLayout # global variable for index of currentLayout that is being changed
 	changingLayout = index
+	
 def changeLayoutLabel(spice):
     currentLayout[changingLayout] = spice
 	
@@ -313,19 +321,26 @@ def startSingleThread(target, args):
     dispenseThread = Thread(target=target, args=args)
     dispenseThread.start()
 	
-def setCurrentRecipe(recipe):
-    global currentRecipe
-    currentRecipe = recipe
+def getRecipeSpices():
+    global recipes
+    global recipeSpices
+    global recipeNames
+    recipes = backend.getRecipes() # testing getRecipes function in backend
+    recipeNames = recipes.keys() # testing getRecipeNames function in backend
+    recipeSpices = recipes.values()
+	
+def updateRecipeArray(spice: str, amount: float, size: str):
+    recipeArray.append((spice, amount, size))
+	
+def resetRecipeArray():
+    recipeArray = []
 
-# created backend object to call backend functions from GUI
-backend = backEnd.SpiceItUpBackend()
-
-recipes = backend.getRecipes() # testing getRecipes function in backend
-recipeNames = recipes.keys() # testing getRecipeNames function in backend
-recipeSpices = recipes.values() # testing getRecipeSpices function in backend
-
-# global variable to store spice selection for dispensing
+# global variable to various important vars
 spice = ''
+
+currentRecipe = ''
+
+deleteRecipe = ''
 
 # class for initiallizing all GUI frames and defining show_frame function
 class spiceItUpApp(tk.Tk):
@@ -352,7 +367,6 @@ class spiceItUpApp(tk.Tk):
 		
 		self.frames_container = container
 		self.current_frame = None
-			
 		self.showFrame(startWin)
 	
     # display frame that is passed as a parameter
@@ -416,7 +430,7 @@ class startWin(tk.Frame):
 		
 		mixesButton = tk.Button(
             self,
-            text= "Custom Spice Mixes",
+            text= "Spice Mixes",
             font = regularFont,
             fg = fontColor,
             bg = buttonColor,
@@ -568,9 +582,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -588,9 +602,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -608,9 +622,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -628,9 +642,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -648,9 +662,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -668,9 +682,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -688,9 +702,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -708,9 +722,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -728,9 +742,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -748,9 +762,9 @@ class layoutWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: (
@@ -805,7 +819,7 @@ class customMixesWin(tk.Frame):
 		
 		viewButton = tk.Button(
 			self, 
-            text = "View\nCustom Mixes", 
+            text = "View Custom Mixes", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -813,6 +827,7 @@ class customMixesWin(tk.Frame):
             activebackground = pressedButton,
             width = 340,
             height = 340,
+			wraplength=320,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: controller.showFrame(viewCustomWin)
@@ -821,7 +836,7 @@ class customMixesWin(tk.Frame):
 		
 		addButton = tk.Button(
             self,
-            text= "Add\nCustom Mix",
+            text= "Add Custom Mix",
             font = regularFont,
             fg = fontColor,
             bg = buttonColor,
@@ -829,6 +844,7 @@ class customMixesWin(tk.Frame):
             activebackground = pressedButton,
             width = 340,
             height = 340,
+			wraplength=320,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: controller.showFrame(addCustomDetailsWin)
@@ -837,7 +853,7 @@ class customMixesWin(tk.Frame):
 		
 		removeButton = tk.Button(
             self,
-            text= "Remove\nCustom Mix",
+            text= "Remove Custom Mix",
             font = regularFont,
             fg = fontColor,
             bg = buttonColor,
@@ -845,6 +861,7 @@ class customMixesWin(tk.Frame):
             activebackground = pressedButton,
             width = 340,
             height = 340,
+			wraplength=320,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: controller.showFrame(deleteCustomWin)
@@ -911,9 +928,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -929,9 +946,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -947,9 +964,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -965,9 +982,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -983,9 +1000,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -1001,9 +1018,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-            wraplength=150,
+            wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -1019,9 +1036,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
 			
@@ -1038,9 +1055,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -1056,9 +1073,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-            wraplength=150,
+            wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -1074,9 +1091,9 @@ class selectDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
-			wraplength=150,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [controller.showFrame(amountDispenseWin),
@@ -1147,11 +1164,11 @@ class amountDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 1)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(float(self.amountBox.cget("text")), 1.0)))
         )
 		plusOneButton.grid(row=1, rowspan=1, column=4, columnspan=1, sticky=tk.NW, padx=10)
 		
@@ -1163,11 +1180,11 @@ class amountDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 0.25)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(float(self.amountBox.cget("text")), 0.25)))
         )
 		plusQuarterButton.grid(row=1, rowspan=1, column=3, columnspan=1, sticky=tk.NE, padx=10)
 		
@@ -1179,11 +1196,11 @@ class amountDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -1)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(float(self.amountBox.cget("text")), -1.0)))
         )
 		minusOneButton.grid(row=1, rowspan=1, column=0, columnspan=1, sticky=tk.NE, padx=10)
 		
@@ -1195,17 +1212,17 @@ class amountDispenseWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -0.25)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(float(self.amountBox.cget("text")), -0.25)))
         )
 		minusQuarterButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NW, padx=10)
 		
-		gramsButton = tk.Button(
+		teaspoonsButton = tk.Button(
 			self, 
-            text = "Grams", 
+            text = "Teaspoons", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -1216,29 +1233,10 @@ class amountDispenseWin(tk.Frame):
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [Thread(target=backend.despenseSpice, args=(spice, self.amountBox.cget("text"),
-																		  gramsButton['text'])).start(),
+																		  teaspoonsButton['text'])).start(),
 								controller.showFrame(waitingWin)]
         )
-		gramsButton.grid(row=2, column=0, columnspan=2, sticky=tk.N)
-		
-		teaspoonsButton = tk.Button(
-            self,
-            text= "Teaspoons",
-            font = regularFont,
-            fg = fontColor,
-            bg = buttonColor,
-            activeforeground = pressedFont,
-            activebackground = pressedButton,
-            width = 340,
-            height = 100,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: [startSingleThread(backend.despenseSpice, (spice, self.amountBox.cget("text"), teaspoonsButton['text'])),
-							   time.sleep(.5),
-							   controller.showFrame(waitingWin)]
-					   
-        )
-		teaspoonsButton.grid(row=2, column=2, sticky=tk.N)
+		teaspoonsButton.grid(row=2, column=0, columnspan=2, sticky=tk.N)
 		
 		tablespoonsButton = tk.Button(
             self,
@@ -1248,15 +1246,34 @@ class amountDispenseWin(tk.Frame):
             bg = buttonColor,
             activeforeground = pressedFont,
             activebackground = pressedButton,
-            width = 340,
+            width = 380,
             height = 100,
             image = pixel,
             compound = tk.CENTER,
             command = lambda: [startSingleThread(backend.despenseSpice, (spice, self.amountBox.cget("text"), tablespoonsButton['text'])),
 							   time.sleep(.5),
 							   controller.showFrame(waitingWin)]
+					   
         )
-		tablespoonsButton.grid(row=2, column=3, columnspan=2, sticky=tk.N)
+		tablespoonsButton.grid(row=2, column=2, sticky=tk.N)
+		
+		cupsButton = tk.Button(
+            self,
+            text= "Cups",
+            font = regularFont,
+            fg = fontColor,
+            bg = buttonColor,
+            activeforeground = pressedFont,
+            activebackground = pressedButton,
+            width = 340,
+            height = 100,
+            image = pixel,
+            compound = tk.CENTER,
+            command = lambda: [startSingleThread(backend.despenseSpice, (spice, self.amountBox.cget("text"), cupsButton['text'])),
+							   time.sleep(.5),
+							   controller.showFrame(waitingWin)]
+        )
+		cupsButton.grid(row=2, column=3, columnspan=2, sticky=tk.N)
 		
 		back = tk.Button(
             self,
@@ -1459,7 +1476,7 @@ class selectMixDispenseWin(tk.Frame):
 				compound = tk.CENTER,
 				wraplength=330,
 				command = lambda recipe=recipe: ([
-					setCurrentRecipe(recipe),
+					globals().update(currentRecipe=recipe),
 					controller.showFrame(amountRecipeDispenseWin)
 				    ]
                 )
@@ -1535,11 +1552,11 @@ class amountRecipeDispenseWin(tk.Frame):
             bg = buttonColor,
             activeforeground = pressedFont,
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), 1)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(float(self.amountBox.cget("text")), 1.0)))
         )
         plusOneButton.grid(row=1, rowspan=1, column=3, columnspan=2, sticky=tk.N)
 
@@ -1551,11 +1568,11 @@ class amountRecipeDispenseWin(tk.Frame):
             bg = buttonColor,
             activeforeground = pressedFont,
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(int(self.amountBox.cget("text")), -1)))
+            command = lambda: self.amountBox.config(text=str(backend.updateAmountGUI(float(self.amountBox.cget("text")), -1.0)))
         )
         minusOneButton.grid(row=1, rowspan=1, column=0, columnspan=2, sticky=tk.N)
 		
@@ -1638,7 +1655,7 @@ class viewCustomWin(tk.Frame):
 				image = pixel,
 				compound = tk.CENTER,
 				command = lambda recipe=recipe: [
-					setCurrentRecipe(recipe),
+					globals().update(currentRecipe=recipe),
 					controller.showFrame(viewCustomDetailsWin)
 				]
             )
@@ -1767,10 +1784,10 @@ class deleteCustomWin(tk.Frame):
 		self.pixel = tk.PhotoImage(width=1, height=1) # invisible pixel for button appearance
 		pixel = self.pixel
 
-		for spice in spices:
+		for i, recipe in enumerate(recipes):
 			button = tk.Button(
 				frame,
-				text = spice,
+				text = recipe,
 				font = smallFont,
 				fg = fontColor,
 				bg = buttonColor,
@@ -1778,13 +1795,15 @@ class deleteCustomWin(tk.Frame):
 				activebackground = pressedButton,
 				width = 340,
 				height = 340,
+				wraplength=330,
 				image = pixel,
 				compound = tk.CENTER,
-				command = lambda spice=spice: (
+				command = lambda recipe=recipe: [(
+					globals().update(deleteRecipe=recipe),
 					controller.showFrame(deleteWin)
-                )
+                )]
             )
-			button.grid(row=0, column=spices.index(spice), padx=10)
+			button.grid(row=0, column=i, padx=10)
 			
 
 		frame.bind_children()
@@ -1832,7 +1851,7 @@ class deleteWin(tk.Frame):
 		removeTxt = tk.Label(self, text="Are you sure you\nwant to remove", font=titleFont, fg=fontColor, bg=bgColor)
 		removeTxt.grid(row=1, column=1, columnspan=3, sticky=tk.S)
 
-		mixTxt = tk.Label(self, text="Spice 1?", font=titleFont, fg=fontColor, bg=bgColor)
+		mixTxt = tk.Label(self, text=deleteRecipe, font=titleFont, fg=fontColor, bg=bgColor)
 		mixTxt.grid(row=2, column=1, columnspan=3, sticky=tk.N)
 
         # remove GIF
@@ -1854,8 +1873,10 @@ class deleteWin(tk.Frame):
 			height = 100,
 			image = pixel,
 			compound = tk.CENTER,
-			command = lambda: controller.showFrame(customMixesWin)
-
+			command = lambda: [
+				backend.removeRecipe(deleteRecipe),
+				getRecipeSpices(),
+				controller.showFrame(customMixesWin)]
         )
 		remove.grid(row=3, column=3, columnspan=1, sticky=tk.N)
 
@@ -1907,25 +1928,23 @@ class addCustomDetailsWin(tk.Frame):
 
 
         # temporary array for testing
-		spiceMix = [['Salt', 2, 'Tablespoons'], ['Black Pepper', 1, 'Tablespoons'], ['Spice 4', 1, 'Teaspoon'], ['Spice 8', 3, 'Tablespoons'], ['Spice 10', 1, 'Tablespoons']]
-        
         # display spices in scrollable frame
-		for spice in spiceMix:
+		for i in range(len(recipeArray)):
 			spiceName = tk.Label(
             frame,
-            text=spice[0],
+            text=recipeArray[i][0],
             font=regularFont,
             fg=fontColor,
             bg=buttonColor)
-			spiceName.grid(row=spiceMix.index(spice), column=0, padx=10, pady=10, sticky=tk.W)
+			spiceName.grid(row=i, column=0, padx=10, pady=10, sticky=tk.W)
 			
 			spiceMeasurements = tk.Label(
                 frame,
-                text=str(spice[1]) + ' ' + spice[2],
+                text=str(f'{recipeArray[i][1]} {recipeArray[i][2]}'),
                 font=regularFont,
                 fg=fontColor,
                 bg=buttonColor)
-			spiceMeasurements.grid(row=spiceMix.index(spice), column=1, padx=10, pady=10, sticky=tk.E)
+			spiceMeasurements.grid(row=i, column=1, padx=10, pady=10, sticky=tk.E)
 			
 		frame.bind_children()
 
@@ -1978,7 +1997,7 @@ class addCustomDetailsWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customNameWin)
+            command = lambda:controller.showFrame(customNameWin)
         )
 		finish.grid(row=3, column=3, columnspan=1)
 		
@@ -2028,11 +2047,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[1]),
+							   controller.showFrame(customAmountWin)]
         )
 		button0.grid(row=1, column=1, sticky=tk.N)
 		
@@ -2044,11 +2065,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[2]), 
+							   controller.showFrame(customAmountWin)]
         )
 		button1.grid(row=1, column=2, sticky=tk.N)
 		
@@ -2060,11 +2083,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[3]),
+							   controller.showFrame(customAmountWin)]
         )
 		button2.grid(row=1, column=3, sticky=tk.N)
 		
@@ -2076,11 +2101,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[4]),
+							   controller.showFrame(customAmountWin)]
         )
 		button3.grid(row=1, column=4, sticky=tk.N)
 		
@@ -2092,11 +2119,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[5]),
+							   controller.showFrame(customAmountWin)]
         )
 		button4.grid(row=1, column=5, sticky=tk.N)
 
@@ -2108,11 +2137,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[6]),
+							   controller.showFrame(customAmountWin)]
         )
 		button5.grid(row=2, column=1, sticky=tk.N)
 		
@@ -2124,11 +2155,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+            wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[7]),
+							   controller.showFrame(customAmountWin)]
         )
 		button6.grid(row=2, column=2, sticky=tk.N)
 		
@@ -2140,11 +2173,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[8]),
+							   controller.showFrame(customAmountWin)]
         )
 		button7.grid(row=2, column=3, sticky=tk.N)
 		
@@ -2156,11 +2191,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[9]),
+							   controller.showFrame(customAmountWin)]
         )
 		button8.grid(row=2, column=4, sticky=tk.N)
 		
@@ -2172,11 +2209,13 @@ class customSelectSpiceWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
+			wraplength=190,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(customAmountWin)
+            command = lambda: [globals().update(spice=spices[10]),
+							   controller.showFrame(customAmountWin)]
         )
 		button9.grid(row=2, column=5, sticky=tk.N)
 		
@@ -2244,7 +2283,7 @@ class customAmountWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
@@ -2260,7 +2299,7 @@ class customAmountWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
@@ -2276,7 +2315,7 @@ class customAmountWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
@@ -2292,7 +2331,7 @@ class customAmountWin(tk.Frame):
             bg = buttonColor, 
             activeforeground = pressedFont, 
             activebackground = pressedButton,
-            width = 160,
+            width = 200,
             height = 160,
             image = pixel,
             compound = tk.CENTER,
@@ -2300,9 +2339,9 @@ class customAmountWin(tk.Frame):
         )
 		minusQuarterButton.grid(row=1, rowspan=1, column=1, columnspan=1, sticky=tk.NE)
 		
-		gramsButton = tk.Button(
+		teaspoonsButton = tk.Button(
 			self, 
-            text = "Grams", 
+            text = "Teaspoons", 
             font = regularFont, 
             fg = fontColor, 
             bg = buttonColor, 
@@ -2312,25 +2351,10 @@ class customAmountWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(addCustomDetailsWin)
+            command = lambda: [updateRecipeArray(spice, self.amountBox.cget("text"), "Teaspoons"), 
+							   controller.showFrame(addCustomDetailsWin)]
         )
-		gramsButton.grid(row=2, column=0, columnspan=2, sticky=tk.N)
-		
-		teaspoonsButton = tk.Button(
-            self,
-            text= "Teaspoons",
-            font = regularFont,
-            fg = fontColor,
-            bg = buttonColor,
-            activeforeground = pressedFont,
-            activebackground = pressedButton,
-            width = 340,
-            height = 100,
-            image = pixel,
-            compound = tk.CENTER,
-            command = lambda: controller.showFrame(addCustomDetailsWin)
-        )
-		teaspoonsButton.grid(row=2, column=2, sticky=tk.N)
+		teaspoonsButton.grid(row=2, column=0, columnspan=2, sticky=tk.N)
 		
 		tablespoonsButton = tk.Button(
             self,
@@ -2340,13 +2364,31 @@ class customAmountWin(tk.Frame):
             bg = buttonColor,
             activeforeground = pressedFont,
             activebackground = pressedButton,
+            width = 380,
+            height = 100,
+            image = pixel,
+            compound = tk.CENTER,
+            command = lambda: [updateRecipeArray(spice, self.amountBox.cget("text"), "Tablespoons"), 
+							   controller.showFrame(addCustomDetailsWin)]
+        )
+		tablespoonsButton.grid(row=2, column=2, sticky=tk.N)
+		
+		cupsButton = tk.Button(
+            self,
+            text= "Cups",
+            font = regularFont,
+            fg = fontColor,
+            bg = buttonColor,
+            activeforeground = pressedFont,
+            activebackground = pressedButton,
             width = 340,
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: controller.showFrame(addCustomDetailsWin)
+            command = lambda: [updateRecipeArray(spice, self.amountBox.cget("text"), "Cups"), 
+							   controller.showFrame(addCustomDetailsWin)]
         )
-		tablespoonsButton.grid(row=2, column=3, columnspan=2, sticky=tk.N)
+		cupsButton.grid(row=2, column=3, columnspan=2,  sticky=tk.N)
 		
 		back = tk.Button(
             self,
@@ -2449,7 +2491,10 @@ class customNameWin(tk.Frame):
 			height = 75,
 			image = pixel,
 			compound = tk.CENTER,
-			command = lambda: controller.showFrame(customMixesWin)
+			command = lambda: [				
+				backend.addRecipe(self.nameTxtbx.cget('text'), recipeArray),
+				resetRecipeArray(),
+				getRecipeSpices(),controller.showFrame(customMixesWin)]
 
         )
 		confirm.grid(row=5, column=10, columnspan=2, sticky=tk.S)
@@ -2682,5 +2727,6 @@ class noSpiceWin(tk.Frame):
 
 
 # driver code
+getRecipeSpices()
 app = spiceItUpApp()
 app.mainloop()

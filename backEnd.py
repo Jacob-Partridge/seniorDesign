@@ -71,7 +71,11 @@ class SpiceItUpBackend:
         return
 
     def addRecipe(self, recipeName: str, spiceList: list):
-        self.recipes[recipeName] = spiceList
+        with open ('recipes.txt', 'a') as f:
+            f.write(f"{recipeName} = ")
+            for spice in spiceList:
+                f.write(f"{spice[0]} | {spice[1]} | {spice[2]}; ")
+            f.write("endRecipe\n")
         return
     
     def calculateSpiceTime(self, amount: float, size: str, teaspoonsPerSecond: float):
@@ -181,8 +185,27 @@ class SpiceItUpBackend:
             
         return self.recipes
     
-    def updateAmountGUI(self, currentVal, delta):
+    def updateAmountGUI(self, currentVal: float, delta: float):
         print(f"Current Value: {currentVal}, Delta: {delta}")
         newValue = max(0, currentVal + delta) # Prevents negative amounts
         print(f"New Value: {newValue}")
         return newValue
+
+
+    def removeRecipe(self, recipeName: str):
+        self.skipNext = False
+        with open('recipes.txt', 'r') as f:
+            lines = f.readlines()
+        with open('recipes.txt', 'w') as f:
+            for line in lines:
+                if self.skipNext:
+                    self.skipNext = False
+                     
+                elif line.startswith(recipeName):
+                    self.skipNext = True
+
+                else:
+                    f.write(line)
+
+
+
