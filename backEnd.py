@@ -105,24 +105,23 @@ class SpiceItUpBackend:
             print(f"Can not dispense empty spice.")
             return
         
-        self.spiceBox = self.spices[f'{spice}']
-        self.housed = self.spiceBox['currentlyHoused']
-        print(f"Box: {self.housed}\nAmount: {amount}\nSize: {size}\n")
-        
-        if self.housed == -1:
+        spiceBox = self.spices[f'{spice}']
+        housed = spiceBox['currentlyHoused']
+        print(f"Box: {housed}\nAmount: {amount}\nSize: {size}\n")
+        if housed == -1:
             print(f"Spice '{spice}' not housed, please house spice and try again.")
             return
-        
-        if self.spiceBox['currentlyHoused'] in range (1,9):
-            self.channel = self.spiceBox['currentlyHoused'] - 1
+        if spiceBox['currentlyHoused'] in range (1,9):
+            channel = spiceBox['currentlyHoused'] - 1
 
-        self.timeToRun = self.calculateSpiceTime(float(amount), size, self.spiceBox['teaspoons/second'])
+        timeToRun = self.calculateSpiceTime(float(amount), size, spiceBox['teaspoons/second'])
                 
-        self.turnServo[self.channel].throttle = .2
-        print("Turning servo forward...")
-        time.sleep(self.timeToRun)
+        # Now each thread references its own local 'channel' and 'timeToRun'
+        self.turnServo[channel].throttle = .2
+        print(f"Turning servo {channel} forward...")
+        time.sleep(timeToRun)
 
-        self.turnServo[self.channel].throttle = 0.5
+        self.turnServo[channel].throttle = 0.5
         return
     
     def dispenseRecipe(self, recipeSpices: list):
