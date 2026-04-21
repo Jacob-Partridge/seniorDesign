@@ -118,14 +118,9 @@ class SpiceItUpBackend:
 
         self.timeToRun = self.calculateSpiceTime(float(amount), size, self.spiceBox['teaspoons/second'])
                 
-        if self.spiceBox['currentlyHoused'] % 2 == 0:
-            self.turnServo[self.channel].throttle = .2
-            print("Turning servo forward...")
-            time.sleep(self.timeToRun)
-        else:
-            self.turnServo[self.channel].throttle = 0.7
-            print("Turning servo backward...")
-            time.sleep(self.timeToRun)
+        self.turnServo[self.channel].throttle = .2
+        print("Turning servo forward...")
+        time.sleep(self.timeToRun)
 
         self.turnServo[self.channel].throttle = 0.5
         return
