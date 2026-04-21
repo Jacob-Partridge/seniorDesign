@@ -125,6 +125,7 @@ class SpiceItUpBackend:
         return
     
     def dispenseRecipe(self, recipeSpices: list):
+        self.threadList = []
         for i in range(len(recipeSpices)):
             spice = recipeSpices[i][0]
             if self.spices[spice]['currentlyHoused'] == -1:
@@ -135,7 +136,10 @@ class SpiceItUpBackend:
             spice = recipeSpices[i]
             thread = Thread(target=self.despenseSpice, args=(spice[0], spice[1], spice[2]))
             thread.start()
-        thread.join()
+            self.threadList.append(thread)
+
+        for thread in self.threadList:
+            thread.join()
         return
     
     def getRecipes(self):
