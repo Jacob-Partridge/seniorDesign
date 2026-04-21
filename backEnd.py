@@ -1,6 +1,6 @@
 import time
 from threading import Thread
-# from adafruit_servokit import ServoKit
+from adafruit_servokit import ServoKit
 
 class SpiceItUpBackend:
     """ This class will handle all the backend logic for the spice dispensing machine, 
