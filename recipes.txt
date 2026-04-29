@@ -1,4 +1,4 @@
-Taco Seasoning = Chili Powder|2|Tablespoons; Cumin|1|Tablespoons; Garlic Powder|2|Teaspoons; Onion Powder|2|Teaspoons; Papria|1|Teaspoons; Salt|1|Teaspoons; Black Pepper|.5|Teaspoons endRecipe
+Taco Seasoning = Chili Powder|2|Tablespoons; Cumin|1|Tablespoons; Garlic Powder|2|Teaspoons; Onion Powder|2|Teaspoons; Paprika|1|Teaspoons; Salt|1|Teaspoons; Black Pepper|.5|Teaspoons endRecipe
 
 BBQ Rub = Paprika|2|Tablespoons; Brown Sugar|1|Tablespoons; Garlic Powder|2|Teaspoons; Onion Powder|2|Teaspoons; Chili Powder|1|Teaspoons; Salt|1|Teaspoons; Black Pepper|1|Teaspoons endRecipe
 

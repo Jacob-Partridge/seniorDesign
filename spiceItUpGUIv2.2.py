@@ -12,7 +12,7 @@ import sys
 import time # import time class
 import tkinter as tk # import tkinter package
 import backEnd # import backend class
-from threading import Thread # import threading classes for backend and GUI to run simultaneously
+from threading import Thread, Event # import threading classes for backend and GUI to run simultaneously
 
 # class for animated GIFs
 # credit to: https://github.com/olesk75/AnimatedGIF  (saved my life)
@@ -56,7 +56,6 @@ class AnimatedGif(tk.Label):
 
 	def start_thread(self):
 		# this starts the thread that runs the animation, if we are using a threaded approach
-		from threading import Thread  # only import the module if we need it
 		self._animation_thread = Thread()
 		self._animation_thread = Thread(target=self._animate_thread).start()  # forks a thread for the animation
 
@@ -318,7 +317,11 @@ def changeLayoutLabel(spice):
 	
 def startSingleThread(target, args):
     global dispenseThread
-    dispenseThread = Thread(target=target, args=args)
+    global failedThread
+    global errorMessage
+    errorMessage = ['']
+    failedThread = Event() # Create an event to signal if the thread failed (e.g., due to missing spice)
+    dispenseThread = Thread(target=target, args=(args, failedThread, errorMessage)) 
     dispenseThread.start()
 	
 def getRecipeSpices():
@@ -1232,9 +1235,9 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: [Thread(target=backend.despenseSpice, args=(spice, self.amountBox.cget("text"),
-																		  teaspoonsButton['text'])).start(),
-								controller.showFrame(waitingWin)]
+            command = lambda: [startSingleThread(backend.despenseSpice, ([spice, self.amountBox.cget("text"),
+																		  teaspoonsButton['text']])),
+							   controller.after(5, lambda: controller.showFrame(waitingWin))]
         )
 		teaspoonsButton.grid(row=2, column=0, columnspan=2, sticky=tk.N)
 		
@@ -1250,9 +1253,9 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: [startSingleThread(backend.despenseSpice, (spice, self.amountBox.cget("text"), tablespoonsButton['text'])),
-							   time.sleep(.5),
-							   controller.showFrame(waitingWin)]
+            command = lambda: [startSingleThread(backend.despenseSpice, ([spice, self.amountBox.cget("text"),
+																		  tablespoonsButton['text']])),
+							   controller.after(5,lambda: controller.showFrame(waitingWin))]
 					   
         )
 		tablespoonsButton.grid(row=2, column=2, sticky=tk.N)
@@ -1269,9 +1272,8 @@ class amountDispenseWin(tk.Frame):
             height = 100,
             image = pixel,
             compound = tk.CENTER,
-            command = lambda: [startSingleThread(backend.despenseSpice, (spice, self.amountBox.cget("text"), cupsButton['text'])),
-							   time.sleep(.5),
-							   controller.showFrame(waitingWin)]
+            command = lambda: [startSingleThread(backend.despenseSpice, ([spice, self.amountBox.cget("text"), cupsButton['text']])),
+							   controller.after(5, lambda: controller.showFrame(waitingWin))]
         )
 		cupsButton.grid(row=2, column=3, columnspan=2, sticky=tk.N)
 		
@@ -1392,10 +1394,17 @@ class waitingWin(tk.Frame):
         # switch to finishedWin when done dispensing
 
     def checkThread(self, controller):
-        if not dispenseThread.is_alive():
+        if failedThread.is_set():
+            # Check the actual error message set by the backend
+            print(errorMessage[0])
+            if "empty spice" in errorMessage[0]:
+                controller.showFrame(emptySpiceWin)
+            else:
+                controller.showFrame(noSpiceRecpieWin)
+        elif not dispenseThread.is_alive():
             controller.showFrame(finishedWin)
         else:
-            controller.after(100, lambda: self.checkThread(controller))
+            controller.after(1, lambda: self.checkThread(controller))
 
 
 # class for finished window
@@ -2678,8 +2687,8 @@ class customNameWin(tk.Frame):
 		self.makeKeyboard(controller)
 		
 
-# class for no spice error message window
-class noSpiceWin(tk.Frame):
+# class for no spice in recipe error message window
+class noSpiceRecpieWin(tk.Frame):
 	
 	def __init__(self, parent, controller):
 		tk.Frame.__init__(self, parent)
@@ -2698,7 +2707,53 @@ class noSpiceWin(tk.Frame):
 		self.columnconfigure(4, weight=1)
 
         # text
-		removeTxt = tk.Label(self, text="ERROR:\nMissing Spice :(", font=titleFont, fg=fontColor, bg=bgColor)
+		removeTxt = tk.Label(self, text=str(errorMessage[0]), font=(titleFont, 48), fg=fontColor, bg=bgColor, wraplength=1200)
+		removeTxt.grid(row=1, column=1, columnspan=3, sticky=tk.S)
+
+        # error GIF
+		# TO BE ADDED
+		
+        # buttons
+		self.pixel = tk.PhotoImage(width=1, height=1) # invisible pixel for button appearance
+		pixel = self.pixel
+		
+		okay = tk.Button(
+			self,
+			text = "Okay",
+			font = regularFont,
+			fg = fontColor,
+			bg = buttonColor,
+			activeforeground = pressedFont,
+			activebackground = pressedButton,
+			width = 340,
+			height = 100,
+			image = pixel,
+			compound = tk.CENTER,
+			command = lambda: controller.showFrame(startWin)
+
+        )
+		okay.grid(row=3, column=1, columnspan=3, sticky=tk.N)
+		
+class emptySpiceWin(tk.Frame):
+	
+	def __init__(self, parent, controller):
+		tk.Frame.__init__(self, parent)
+		
+        # settings of window
+		self.configure(background=bgColor)
+        # 4x5 grid
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.columnconfigure(0, weight=1)
+		self.columnconfigure(1, weight=1)
+		self.columnconfigure(2, weight=1)
+		self.columnconfigure(3, weight=1)
+		self.columnconfigure(4, weight=1)
+
+        # text
+		removeTxt = tk.Label(self, text=str(errorMessage[0]), font=titleFont, fg=fontColor, bg=bgColor)
 		removeTxt.grid(row=1, column=1, columnspan=3, sticky=tk.S)
 
         # error GIF

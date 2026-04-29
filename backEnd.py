@@ -1,5 +1,5 @@
 import time
-from threading import Thread
+from threading import Thread, Event
 from adafruit_servokit import ServoKit
 
 class SpiceItUpBackend:
@@ -9,7 +9,6 @@ class SpiceItUpBackend:
 
     def __init__(self):
         try: 
-            print("Initializing backend...")
             """ salt, black pepper, garlic powder, onion powder, paprika, cumin, chili powder, cayenne pepper, dried oregano, brown sugar """
             # Initialize the kit.
             kit = ServoKit(channels=16)
@@ -64,9 +63,7 @@ class SpiceItUpBackend:
                                         "currentlyHoused" : -1,
                                         "conversionConstant" : 1}
         }
-            print("Backend initialized successfully.")
         except:
-            print("Error initializing backend.")
             return
         return
 
@@ -87,7 +84,6 @@ class SpiceItUpBackend:
         elif size == "Cups":
             return (amount * 48) * teaspoonsPerSecond
         else:
-            print("Error in spice time calculation")
             return 0
         
     def changeSpiceLayouts(self, newLayout: list):
@@ -100,47 +96,59 @@ class SpiceItUpBackend:
                 self.spices[key]['currentlyHoused'] = -1
 
 
-    def despenseSpice(self, spice: str, amount: str, size: str):
-        if spice == "Empty":
-            print(f"Can not dispense empty spice.")
+    def despenseSpice(self, spiceInfo: list, event: Event, errorMessage: list):
+        try: 
+            if str(spiceInfo[0]) == "Empty":
+                raise ValueError('Cannot dispense\nempty spice')
+            
+            spiceBox = self.spices[f'{spiceInfo[0]}']
+            housed = spiceBox['currentlyHoused']
+            
+            if housed == -1:
+                raise ValueError('ERROR:\nMissing Spice :(')
+            
+            if spiceBox['currentlyHoused'] in range (1,9):
+                channel = spiceBox['currentlyHoused'] - 1
+
+            timeToRun = self.calculateSpiceTime(float(spiceInfo[1]), spiceInfo[2], spiceBox['teaspoons/second'])
+                    
+            # Now each thread references its own local 'channel' and 'timeToRun'
+            self.turnServo[channel].throttle = .7
+            time.sleep(timeToRun)
+            self.turnServo[channel].throttle = 0.5
             return
         
-        spiceBox = self.spices[f'{spice}']
-        housed = spiceBox['currentlyHoused']
-        print(f"Box: {housed}\nAmount: {amount}\nSize: {size}\n")
-        if housed == -1:
-            print(f"Spice '{spice}' not housed, please house spice and try again.")
-            return
-        if spiceBox['currentlyHoused'] in range (1,9):
-            channel = spiceBox['currentlyHoused'] - 1
+        except Exception as e:
+            errorMessage[0] = str(e)
+            event.set()
 
-        timeToRun = self.calculateSpiceTime(float(amount), size, spiceBox['teaspoons/second'])
+        
+    def dispenseRecipe(self, recipeSpices: list, event: Event, errorMessage: str):
+        try:
+            self.threadList = []
+            self.missingSpice = ''
+            for i in range(len(recipeSpices[0])):
+                spice = recipeSpices[0][i][0]
+                if self.spices[spice]['currentlyHoused'] == -1:
+                    self.missingSpice = self.missingSpice + f'{spice}, '
+
+            if len(self.missingSpice) > 0:
+                raise ValueError(f'ERROR: Missing Spice(s) :(\n{self.missingSpice}')
                 
-        # Now each thread references its own local 'channel' and 'timeToRun'
-        self.turnServo[channel].throttle = .2
-        print(f"Turning servo {channel} forward...")
-        time.sleep(timeToRun)
+            for i in range(len(recipeSpices)):
+                spice = recipeSpices[i]
+                thread = Thread(target=self.despenseSpice, args=(spice[0], spice[1], spice[2], event, errorMessage))
+                thread.start()
+                self.threadList.append(thread)
 
-        self.turnServo[channel].throttle = 0.5
-        return
-    
-    def dispenseRecipe(self, recipeSpices: list):
-        self.threadList = []
-        for i in range(len(recipeSpices)):
-            spice = recipeSpices[i][0]
-            if self.spices[spice]['currentlyHoused'] == -1:
-                print(f"Spice '{recipeSpices[i][0]}' not housed.")
-                print(f"{self.spices[spice]['currentlyHoused']}")
-                return
-        for i in range(len(recipeSpices)):
-            spice = recipeSpices[i]
-            thread = Thread(target=self.despenseSpice, args=(spice[0], spice[1], spice[2]))
-            thread.start()
-            self.threadList.append(thread)
+            for thread in self.threadList:
+                thread.join()
+            return
+        
+        except Exception as e:
+            errorMessage[0] = str(e)
+            event.set()
 
-        for thread in self.threadList:
-            thread.join()
-        return
     
     def getRecipes(self):
         self.recipes = {} 
@@ -184,9 +192,7 @@ class SpiceItUpBackend:
         return self.recipes
     
     def updateAmountGUI(self, currentVal: float, delta: float):
-        print(f"Current Value: {currentVal}, Delta: {delta}")
         newValue = max(0, currentVal + delta) # Prevents negative amounts
-        print(f"New Value: {newValue}")
         return newValue
 
 
@@ -204,6 +210,4 @@ class SpiceItUpBackend:
 
                 else:
                     f.write(line)
-
-
 
