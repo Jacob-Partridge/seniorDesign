@@ -2,14 +2,16 @@ import time
 from threading import Thread, Event
 from adafruit_servokit import ServoKit
 
+
 class SpiceItUpBackend:
-    """ This class will handle all the backend logic for the spice dispensing machine, 
-        including calculating the time to run the servo for each spice, as well as keeping 
-        track of the spice recipes. """
+    """ This class will handle all the backend logic for the spice dispensing
+    machine, including calculating the time to run the servo for each spice,
+    as well as keeping track of the spice recipes. """
 
     def __init__(self):
-        try: 
-            """ salt, black pepper, garlic powder, onion powder, paprika, cumin, chili powder, cayenne pepper, dried oregano, brown sugar """
+        try:
+            """ salt, black pepper, garlic powder, onion powder, paprika, cumin
+            ,chili powder, cayenne pepper, dried oregano, brown sugar """
             # Initialize the kit.
             kit = ServoKit(channels=16)
             #  Access the continuous rotation servo property on channel input
@@ -19,63 +21,66 @@ class SpiceItUpBackend:
             self.channel = 0
             self.spiceQueue = []
             self.recipes = {}
-            
-            
-            # We got the flow rate for salt and are using it as a baseline for the other spices, 
-            # We can adjust the flow rates as we test the machine and get more accurate measurements for each spice
-            self.spices = { 'Salt': {"teaspoons/second" : 7.5, # Fine Salt
-                                    "currentlyHoused" : -1,
-                                    "conversionConstant" : 1},
 
-                            'Black Pepper': {"teaspoons/second" : 7.5, # Black Pepper
-                                    "currentlyHoused" : -1,
-                                    "conversionConstant" : 1},
+            # We got the flow rate for salt and are using it as a baseline for
+            # the other spices, We can adjust the flow rates as we test the
+            # machine and get more accurate measurements for each spice
 
-                            'Garlic Powder': {"teaspoons/second" : 7.5, # Garlic Powder
-                                    "currentlyHoused" : -1,
-                                    "conversionConstant" : 1},
+            self.spices = {'Salt': {"teaspoons/second": 7.5,
+                                    "currentlyHoused": -1,
+                                    "conversionConstant": 1},
 
-                            'Onion Powder': {"teaspoons/second" : 7.5, # Onion Powder
-                                    "currentlyHoused" : -1,
-                                    "conversionConstant" : 1},
+                           'Black Pepper': {"teaspoons/second": 7.5,
+                                            "currentlyHoused": -1,
+                                            "conversionConstant": 1},
 
-                            'Paprika': {"teaspoons/second" : 7.5, # Paprika
-                                    "currentlyHoused" : -1,
-                                    "conversionConstant" : 1},
+                           'Garlic Powder': {"teaspoons/second": 7.5,
+                                             "currentlyHoused": -1,
+                                             "conversionConstant":  1},
 
-                            'Cumin': {"teaspoons/second" : 7.5, # Cumin
-                                    "currentlyHoused" : -1,
-                                    "conversionConstant" : 1},
+                           'Onion Powder': {"teaspoons/second":  7.5,
+                                            "currentlyHoused": -1,
+                                            "conversionConstant":  1},
 
-                            'Chili Powder': {"teaspoons/second" : 7.5, # Chili Powder
-                                    "currentlyHoused" : -1,
-                                    "conversionConstant" : 1},
+                           'Paprika': {"teaspoons/second":  7.5,
+                                       "currentlyHoused": -1,
+                                       "conversionConstant":  1},
 
-                            'Ground Ginger': {"teaspoons/second" : 7.5, # Ground Ginger
-                                    "currentlyHoused" : -1,
-                                    "conversionConstant" : 1},
+                           'Cumin': {"teaspoons/second":  7.5,
+                                     "currentlyHoused": -1,
+                                     "conversionConstant":  1},
 
-                            'Dried Oregano': {"teaspoons/second" : 7.5, # Dried Oregano
-                                    "currentlyHoused" : -1,
-                                    "conversionConstant" : 1},
-                                            
-                            'Brown Sugar': {"teaspoons/second" : 7.5, # Brown Sugar
-                                        "currentlyHoused" : -1,
-                                        "conversionConstant" : 1}
-        }
-        except:
+                           'Chili Powder': {"teaspoons/second":  7.5,
+                                            "currentlyHoused": -1,
+                                            "conversionConstant":  1},
+
+                           'Ground Ginger': {"teaspoons/second":  7.5,
+                                             "currentlyHoused": -1,
+                                             "conversionConstant":  1},
+
+                           'Dried Oregano': {"teaspoons/second":  7.5,
+                                             "currentlyHoused": -1,
+                                             "conversionConstant":  1},
+
+                           'Brown Sugar': {"teaspoons/second":  7.5,
+                                           "currentlyHoused": -1,
+                                           "conversionConstant":  1}
+                           }
+
+        except Exception as e:
             return
         return
 
     def addRecipe(self, recipeName: str, spiceList: list):
-        with open ('recipes.txt', 'a') as f:
+        with open('recipes.txt', 'a') as f:
             f.write(f"{recipeName} = ")
             for spice in spiceList:
                 f.write(f"{spice[0]} | {spice[1]} | {spice[2]}; ")
             f.write("endRecipe\n")
         return
-    
-    def calculateSpiceTime(self, amount: float, size: str, teaspoonsPerSecond: float):
+
+    def calculateSpiceTime(self, amount: float, size: str,
+                           teaspoonsPerSecond: float):
 
         if size == "Teaspoons":
             return amount * teaspoonsPerSecond
@@ -85,45 +90,47 @@ class SpiceItUpBackend:
             return (amount * 48) * teaspoonsPerSecond
         else:
             return 0
-        
+
     def changeSpiceLayouts(self, newLayout: list):
-        # Assuming we are using the list to update the spice layout in the order of the spice dictionary
-        # As well as changing the buttons in the frontend to reflect the new spice layout
+        """Assuming we are using the list to update the spice
+        layout in the order of the spice dictionaryAs well as changing the
+        buttons in the frontend to reflect the new spice layout"""
         for key in self.spices.keys():
             if key in newLayout:
                 self.spices[key]['currentlyHoused'] = newLayout.index(key) + 1
             else:
                 self.spices[key]['currentlyHoused'] = -1
 
-
     def despenseSpice(self, spiceInfo: list, event: Event, errorMessage: list):
-        try: 
+        try:
             if str(spiceInfo[0]) == "Empty":
                 raise ValueError('Cannot dispense\nempty spice')
-            
+
             spiceBox = self.spices[f'{spiceInfo[0]}']
             housed = spiceBox['currentlyHoused']
-            
+
             if housed == -1:
-                raise ValueError('ERROR:\nMissing Spice :(')
-            
-            if spiceBox['currentlyHoused'] in range (1,9):
+                raise ValueError('ERROR: \nMissing Spice:  (')
+
+            if spiceBox['currentlyHoused'] in range(1, 9):
                 channel = spiceBox['currentlyHoused'] - 1
 
-            timeToRun = self.calculateSpiceTime(float(spiceInfo[1]), spiceInfo[2], spiceBox['teaspoons/second'])
-                    
-            # Now each thread references its own local 'channel' and 'timeToRun'
+            timeToRun = self.calculateSpiceTime(float(spiceInfo[1]),
+                                                spiceInfo[2],
+                                                spiceBox['teaspoons/second'])
+
+            # Now each thread references its own local channel and timeToRun
             self.turnServo[channel].throttle = .7
             time.sleep(timeToRun)
             self.turnServo[channel].throttle = 0.5
             return
-        
+
         except Exception as e:
             errorMessage[0] = str(e)
             event.set()
 
-        
-    def dispenseRecipe(self, recipeSpices: list, event: Event, errorMessage: str):
+    def dispenseRecipe(self, recipeSpices: list, event: Event,
+                       errorMessage: str):
         try:
             self.threadList = []
             self.missingSpice = ''
@@ -133,68 +140,71 @@ class SpiceItUpBackend:
                     self.missingSpice = self.missingSpice + f'{spice}, '
 
             if len(self.missingSpice) > 0:
-                raise ValueError(f'ERROR: Missing Spice(s) :(\n{self.missingSpice}')
-                
+                raise ValueError('ERROR: Missing Spice(s): '
+                                 f'(\n{self.missingSpice}')
+
             for i in range(len(recipeSpices)):
                 spice = recipeSpices[i]
-                thread = Thread(target=self.despenseSpice, args=(spice[0], spice[1], spice[2], event, errorMessage))
+                thread = Thread(target=self.despenseSpice, args=(spice[0],
+                                                                 spice[1],
+                                                                 spice[2],
+                                                                 event,
+                                                                 errorMessage))
                 thread.start()
                 self.threadList.append(thread)
 
             for thread in self.threadList:
                 thread.join()
             return
-        
+
         except Exception as e:
             errorMessage[0] = str(e)
             event.set()
 
-    
     def getRecipes(self):
-        self.recipes = {} 
+        self.recipes = {}
         try:
             with open('recipes.txt', 'r') as f:
                 # 1. Split by 'endRecipe' to get each block
                 blocks = f.read().split('endRecipe')
-                
+
             for block in blocks:
                 block = block.strip()
                 if '=' in block:
                     # 2. Separate "Recipe Name" from the "Spice Data"
                     name_part, data_part = block.split('=', 1)
                     recipe_name = name_part.strip()
-                    
+
                     recipe_spices = []
-                    
-                    # 3. Check if there are actually spices (handles "Recipe 2 =  ")
+
+                    # 3. Check if there are actually spices
+                    # (handles "Recipe 2 =  ")
                     data_part = data_part.strip()
-                    if data_part: 
+                    if data_part:
                         # Split by ';' to get each spice block
                         spice_strings = data_part.split(';')
-                        
+
                         for s in spice_strings:
                             s = s.strip()
-                            if s: # Ignore empty strings from trailing semicolons
+                            if s:
                                 # 4. Split by '|' to get Name, Amount, Unit
-                                # This also strips extra spaces from each item automatically
-                                spice_details = [item.strip() for item in s.split('|')]
-                                
-                                # Safety check: make sure we actually got 3 pieces of data
+                                spice_details = [item.strip() for item
+                                                 in s.split('|')]
+
                                 if len(spice_details) == 3:
                                     recipe_spices.append(spice_details)
-                    
+
                     # 5. Store the list of spices in the dictionary
                     self.recipes[recipe_name] = recipe_spices
-                    
+
         except FileNotFoundError:
             print("Error: recipes.txt not found.")
-            
-        return self.recipes
-    
-    def updateAmountGUI(self, currentVal: float, delta: float):
-        newValue = max(0, currentVal + delta) # Prevents negative amounts
-        return newValue
 
+        return self.recipes
+
+    def updateAmountGUI(self, currentVal: float, delta: float):
+        newValue = max(0, currentVal + delta)  # Prevents negative amounts
+        return newValue
 
     def removeRecipe(self, recipeName: str):
         self.skipNext = False
@@ -204,10 +214,9 @@ class SpiceItUpBackend:
             for line in lines:
                 if self.skipNext:
                     self.skipNext = False
-                     
+
                 elif line.startswith(recipeName):
                     self.skipNext = True
 
                 else:
                     f.write(line)
-
