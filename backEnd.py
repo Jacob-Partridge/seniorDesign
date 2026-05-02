@@ -120,7 +120,7 @@ class SpiceItUpBackend:
                                                 spiceBox['teaspoons/second'])
 
             # Now each thread references its own local channel and timeToRun
-            self.turnServo[channel].throttle = .7
+            self.turnServo[channel].throttle = .2
             time.sleep(timeToRun)
             self.turnServo[channel].throttle = 0.5
             return
