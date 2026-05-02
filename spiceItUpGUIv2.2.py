@@ -1357,7 +1357,7 @@ class amountDispenseWin(tk.Frame):
 
         back = tk.Button(
             self,
-            tex="Back",
+            text="Back",
             font=regularFont,
             fg=fontColor,
             bg=buttonColor,
@@ -2489,7 +2489,7 @@ class customAmountWin(tk.Frame):
 
         tablespoonsButton = tk.Button(
             self,
-            tex="Tablespoons",
+            text="Tablespoons",
             font=regularFont,
             fg=fontColor,
             bg=buttonColor,
