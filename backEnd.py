@@ -18,7 +18,6 @@ class SpiceItUpBackend:
             self.turnServo = kit.continuous_servo
             self.spiceBox = 0
             self.timeToRun = 0
-            self.channel = 0
             self.spiceQueue = []
             self.recipes = {}
 
@@ -103,6 +102,7 @@ class SpiceItUpBackend:
 
     def despenseSpice(self, spiceInfo: list, event: Event, errorMessage: list):
         try:
+            channel = 0
             if str(spiceInfo[0]) == "Empty":
                 raise ValueError('Cannot dispense\nempty spice')
 
