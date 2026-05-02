@@ -112,7 +112,7 @@ class SpiceItUpBackend:
             if housed == -1:
                 raise ValueError('ERROR: \nMissing Spice:  (')
 
-            if spiceBox['currentlyHoused'] in range(1, 9):
+            if spiceBox['currentlyHoused'] in range(1, 10):
                 channel = spiceBox['currentlyHoused'] - 1
 
             timeToRun = self.calculateSpiceTime(float(spiceInfo[1]),
