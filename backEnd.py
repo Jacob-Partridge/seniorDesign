@@ -112,10 +112,12 @@ class SpiceItUpBackend:
             if housed == -1:
                 raise ValueError('ERROR: \nMissing Spice:  (')
 
-            if spiceBox['currentlyHoused'] in range(1, 6):
+            if spiceBox['currentlyHoused'] in [1,2,3]:
+                channel = spiceBox['currentlyHoused'] -1
+            elif spiceBox['currentlyHoused'] in [4,5]:
                 channel = spiceBox['currentlyHoused'] + 10
             else:
-                channel = spiceBox['currentlyHoused'] - 6
+                channel = spiceBox['currentlyHoused'] + 1
 
             timeToRun = self.calculateSpiceTime(float(spiceInfo[1]),
                                                 spiceInfo[2],
@@ -145,11 +147,10 @@ class SpiceItUpBackend:
                 raise ValueError('ERROR: Missing Spice(s): '
                                  f'(\n{self.missingSpice}')
 
-            for i in range(len(recipeSpices)):
-                spice = recipeSpices[i]
-                thread = Thread(target=self.despenseSpice, args=(spice[0],
-                                                                 spice[1],
-                                                                 spice[2],
+            for i in range(len(recipeSpices[0])):
+                spice = recipeSpices[0][i]
+                print(spice)
+                thread = Thread(target=self.despenseSpice, args=(spice,
                                                                  event,
                                                                  errorMessage))
                 thread.start()

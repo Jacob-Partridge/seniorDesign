@@ -18,3 +18,4 @@ Rice Seasoning = Garlic Powder|1|Tablespoons; Onion Powder|1|Tablespoons; Paprik
 
 Pancake = Brown Sugar|2|Tablespoons; Ground Ginger|1|Tablespoons endRecipe
 
+L = Salt | 1 | Teaspoons; Black Pepper | 1 | Teaspoons; endRecipe
