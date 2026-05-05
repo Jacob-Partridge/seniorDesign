@@ -117,7 +117,7 @@ class SpiceItUpBackend:
             elif spiceBox['currentlyHoused'] in [4,5]:
                 channel = spiceBox['currentlyHoused'] + 10
             else:
-                channel = spiceBox['currentlyHoused'] + 1
+                channel = spiceBox['currentlyHoused']
 
             timeToRun = self.calculateSpiceTime(float(spiceInfo[1]),
                                                 spiceInfo[2],
