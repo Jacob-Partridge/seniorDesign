@@ -46,8 +46,8 @@ class SpiceItUpBackend:
                                        "conversionConstant":  1},
 
                            'Cayenne Pepper': {"teaspoons/second":  7.5,
-                                     "currentlyHoused": -1,
-                                     "conversionConstant":  1},
+                                              "currentlyHoused": -1,
+                                              "conversionConstant":  1},
 
                            'Chili Powder': {"teaspoons/second":  7.5,
                                             "currentlyHoused": -1,
@@ -62,8 +62,8 @@ class SpiceItUpBackend:
                                              "conversionConstant":  1},
 
                            'Sugar': {"teaspoons/second":  8.5,
-                                           "currentlyHoused": -1,
-                                           "conversionConstant":  1}
+                                     "currentlyHoused": -1,
+                                     "conversionConstant":  1}
                            }
 
         except Exception as e:
