@@ -25,11 +25,11 @@ class SpiceItUpBackend:
             # the other spices, We can adjust the flow rates as we test the
             # machine and get more accurate measurements for each spice
 
-            self.spices = {'Salt': {"teaspoons/second": 15,
+            self.spices = {'Salt': {"teaspoons/second": 5,
                                     "currentlyHoused": -1,
                                     "conversionConstant": 1},
 
-                           'Black Pepper': {"teaspoons/second": 15,
+                           'Black Pepper': {"teaspoons/second": 5,
                                             "currentlyHoused": -1,
                                             "conversionConstant": 1},
 
@@ -45,7 +45,7 @@ class SpiceItUpBackend:
                                        "currentlyHoused": -1,
                                        "conversionConstant":  1},
 
-                           'Cumin': {"teaspoons/second":  7.5,
+                           'Cayenne Pepper': {"teaspoons/second":  7.5,
                                      "currentlyHoused": -1,
                                      "conversionConstant":  1},
 
@@ -61,7 +61,7 @@ class SpiceItUpBackend:
                                              "currentlyHoused": -1,
                                              "conversionConstant":  1},
 
-                           'Brown Sugar': {"teaspoons/second":  7.5,
+                           'Sugar': {"teaspoons/second":  75,
                                            "currentlyHoused": -1,
                                            "conversionConstant":  1}
                            }
