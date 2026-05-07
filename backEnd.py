@@ -53,7 +53,7 @@ class SpiceItUpBackend:
                                             "currentlyHoused": -1,
                                             "conversionConstant":  1},
 
-                           'Ground Ginger': {"teaspoons/second":  7.5,
+                           'Ground Ginger': {"teaspoons/second":  15,
                                              "currentlyHoused": -1,
                                              "conversionConstant":  1},
 
