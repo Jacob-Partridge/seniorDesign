@@ -49,7 +49,7 @@ class SpiceItUpBackend:
                                               "currentlyHoused": -1,
                                               "conversionConstant":  1},
 
-                           'Chili Powder': {"teaspoons/second":  7.5,
+                           'Chili Powder': {"teaspoons/second":  15,
                                             "currentlyHoused": -1,
                                             "conversionConstant":  1},
 
