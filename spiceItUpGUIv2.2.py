@@ -371,11 +371,13 @@ def getRecipeSpices():
 
 
 def updateRecipeArray(spice: str, amount: float, size: str):
+    global recipeArray
     recipeArray.append((spice, amount, size))
 
 
 def resetRecipeArray():
-    recipeArray = []
+    global recipeArray
+    recipeArray.clear()
 
 
 # global variable to various important vars
@@ -384,7 +386,6 @@ spice = ''
 currentRecipe = ''
 
 deleteRecipe = ''
-
 
 # class for initiallizing all GUI frames and defining show_frame function
 class spiceItUpApp(tk.Tk):
@@ -2075,7 +2076,7 @@ class addCustomDetailsWin(tk.Frame):
             height=100,
             image=pixel,
             compound=tk.CENTER,
-            command=lambda: controller.showFrame(customMixesWin)
+            command=lambda: [resetRecipeArray(), controller.showFrame(customMixesWin)]
         )
         cancel.grid(row=3, column=1, columnspan=1)
 
@@ -2636,7 +2637,7 @@ class customNameWin(tk.Frame):
             command=lambda: [
                 backend.addRecipe(self.nameTxtbx.cget('text'), recipeArray),
                 resetRecipeArray(),
-                getRecipeSpices(), controller.showFrame(customMixesWin)]
+                getRecipeSpices(), controller.showFrame(customMixesWin),]
 
         )
         confirm.grid(row=5, column=10, columnspan=2, sticky=tk.S)
