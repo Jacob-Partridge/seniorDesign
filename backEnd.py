@@ -1,6 +1,6 @@
 import time
 from threading import Thread, Event
-# from adafruit_servokit import ServoKit
+from adafruit_servokit import ServoKit
 
 
 class SpiceItUpBackend:
@@ -10,12 +10,13 @@ class SpiceItUpBackend:
 
     def __init__(self):
         try:
-            """ salt, black pepper, garlic powder, onion powder, paprika, cumin
-            ,chili powder, cayenne pepper, dried oregano, brown sugar """
+            """ salt, black pepper, garlic powder, onion powder, paprika,
+            Cayenne Pepper ,chili powder, cayenne pepper, dried oregano,
+            sugar """
             # Initialize the kit.
-            # kit = ServoKit(channels=16)
+            kit = ServoKit(channels=16)
             #  Access the continuous rotation servo property on channel input
-            #self.turnServo = kit.continuous_servo
+            self.turnServo = kit.continuous_servo
             self.spiceBox = 0
             self.timeToRun = 0
             self.spiceQueue = []
