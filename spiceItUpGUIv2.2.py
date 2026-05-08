@@ -2466,6 +2466,7 @@ class customAmountWin(tk.Frame):
                 backend.updateAmountGUI(float(self.amountBox.cget("text")),
                                         -0.25)))
         )
+        
         minusQuarterButton.grid(row=1, rowspan=1, column=1, columnspan=1,
                                 sticky=tk.NE)
 
