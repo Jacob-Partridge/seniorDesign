@@ -2406,7 +2406,7 @@ class customAmountWin(tk.Frame):
             image=pixel,
             compound=tk.CENTER,
             command=lambda: self.amountBox.config(text=str(
-                backend.updateAmountGUI(int(self.amountBox.cget("text")),
+                backend.updateAmountGUI(float(self.amountBox.cget("text")),
                                         1)))
         )
         plusOneButton.grid(row=1, rowspan=1, column=4, columnspan=1,
@@ -2425,7 +2425,7 @@ class customAmountWin(tk.Frame):
             image=pixel,
             compound=tk.CENTER,
             command=lambda: self.amountBox.config(text=str(
-                backend.updateAmountGUI(int(self.amountBox.cget("text")),
+                backend.updateAmountGUI(float(self.amountBox.cget("text")),
                                         0.25)))
         )
         plusQuarterButton.grid(row=1, rowspan=1, column=3, columnspan=1,
@@ -2444,7 +2444,7 @@ class customAmountWin(tk.Frame):
             image=pixel,
             compound=tk.CENTER,
             command=lambda: self.amountBox.config(text=str(
-                backend.updateAmountGUI(int(self.amountBox.cget("text")),
+                backend.updateAmountGUI(float(self.amountBox.cget("text")),
                                         -1)))
         )
         minusOneButton.grid(row=1, rowspan=1, column=0, columnspan=1,
@@ -2463,7 +2463,7 @@ class customAmountWin(tk.Frame):
             image=pixel,
             compound=tk.CENTER,
             command=lambda: self.amountBox.config(text=str(
-                backend.updateAmountGUI(int(self.amountBox.cget("text")),
+                backend.updateAmountGUI(float(self.amountBox.cget("text")),
                                         -0.25)))
         )
         minusQuarterButton.grid(row=1, rowspan=1, column=1, columnspan=1,
