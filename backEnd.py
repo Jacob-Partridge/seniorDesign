@@ -11,7 +11,7 @@ class SpiceItUpBackend:
     def __init__(self):
         try:
             """ salt, black pepper, garlic powder, onion powder, paprika,
-            Cayenne Pepper ,chili powder, cayenne pepper, dried oregano,
+            Cayenne Pepper ,chili powder, Red Pepper, dried oregano,
             sugar """
             # Initialize the kit.
             kit = ServoKit(channels=16)
@@ -54,7 +54,7 @@ class SpiceItUpBackend:
                                             "currentlyHoused": -1,
                                             "conversionConstant":  1},
 
-                           'Ground Ginger': {"teaspoons/second":  8.5,
+                           'Red Pepper': {"teaspoons/second":  8.5,
                                              "currentlyHoused": -1,
                                              "conversionConstant":  1},
 

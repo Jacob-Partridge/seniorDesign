@@ -325,7 +325,7 @@ winHeight = 720
 
 # global array for layout spice names
 spices = ["Empty", "Salt", "Black Pepper", "Garlic Powder", "Onion Powder",
-          "Paprika", "Cumin", "Chili Powder", "Ground Ginger", "Dried Oregano",
+          "Paprika", "Cumin", "Chili Powder", "Red Pepper", "Dried Oregano",
           "Sugar"]
 
 # global array for current spice layout

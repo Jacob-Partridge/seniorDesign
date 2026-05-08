@@ -1,11 +1,11 @@
-Cajun Seasoning = Paprika|2|Tablespoons; Salt|1|Tablespoons; Garlic Powder|1|Tablespoons; Black Pepper|1|Tablespoons; Onion Powder|1|Tablespoons; Dried Oregano|1|Tablespoons; Cayenne Pepper|1|Teaspoons endRecipe
+BBQ Dry Rub = Sugar|3|Tablespoons; Paprika|2|Tablespoons; Salt|1|Tablespoons; Black Pepper|1|Tablespoons; Garlic Powder|1|Teaspoons; Onion Powder|1|Teaspoons; Chili Powder|1|Teaspoons endRecipe
 
-All-Purpose BBQ Rub = Sugar|2|Tablespoons; Paprika|1|Tablespoons; Salt|1|Tablespoons; Black Pepper|1|Tablespoons; Garlic Powder|2|Teaspoons; Onion Powder|2|Teaspoons; Chili Powder|1|Teaspoons endRecipe
+Spicy Italian Blend = Dried Oregano|3|Tablespoons; Garlic Powder|1|Tablespoons; Onion Powder|1|Tablespoons; Salt|1|Teaspoons; Black Pepper|1|Teaspoons; Red Pepper|1|Teaspoons endRecipe
 
-Spicy Chili Seasoning = Chili Powder|3|Tablespoons; Garlic Powder|1|Tablespoons; Onion Powder|1|Tablespoons; Salt|1|Tablespoons; Dried Oregano|1|Tablespoons; Paprika|2|Teaspoons; Cayenne Pepper|1.5|Teaspoons endRecipe
+Cajun Seasoning = Paprika|2|Tablespoons; Salt|1|Tablespoons; Garlic Powder|1|Tablespoons; Black Pepper|1|Tablespoons; Onion Powder|1|Tablespoons; Dried Oregano|1|Tablespoons; Cayenne Pepper|1|Teaspoons; Red Pepper|.5|Teaspoons endRecipe
 
-Savory Garlic Blend = Garlic Powder|3|Tablespoons; Onion Powder|1|Tablespoons; Dried Oregano|1|Tablespoons; Salt|1|Teaspoons; Black Pepper|1|Teaspoons endRecipe
+Chili Base Mix = Chili Powder|4|Tablespoons; Garlic Powder|1|Tablespoons; Onion Powder|1|Tablespoons; Salt|2|Teaspoons; Paprika|1|Teaspoons; Dried Oregano|1|Teaspoons; Cayenne Pepper|.5|Teaspoons endRecipe
 
-Mild Chili Mix = Chili Powder|3|Tablespoons; Garlic Powder|1|Tablespoons; Onion Powder|1|Tablespoons; Paprika|1|Tablespoons; Salt|1|Teaspoons; Black Pepper|1|Teaspoons; Dried Oregano|.5|Teaspoons endRecipe
+Savory Steak Rub = Black Pepper|2|Tablespoons; Salt|2|Tablespoons; Garlic Powder|1|Tablespoons; Onion Powder|1|Tablespoons; Red Pepper|1|Teaspoons; Dried Oregano|.5|Teaspoons endRecipe
 
-Spicy Heat Rub = Cayenne Pepper|2|Tablespoons; Chili Powder|1|Tablespoons; Paprika|1|Tablespoons; Garlic Powder|1|Tablespoons; Salt|1|Tablespoons; Black Pepper|1|Tablespoons; Sugar|1|Tablespoons endRecipe
+Sweet & Spicy Poultry Rub = Sugar|2|Tablespoons; Paprika|1|Tablespoons; Garlic Powder|1|Tablespoons; Salt|1|Teaspoons; Black Pepper|1|Teaspoons; Cayenne Pepper|.5|Teaspoons endRecipe
