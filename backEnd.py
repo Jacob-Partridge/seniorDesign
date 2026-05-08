@@ -33,31 +33,31 @@ class SpiceItUpBackend:
                                             "currentlyHoused": -1,
                                             "conversionConstant": 1},
 
-                           'Garlic Powder': {"teaspoons/second": 7.5,
+                           'Garlic Powder': {"teaspoons/second": 8.5,
                                              "currentlyHoused": -1,
                                              "conversionConstant":  1},
 
-                           'Onion Powder': {"teaspoons/second":  7.5,
+                           'Onion Powder': {"teaspoons/second":  8.5,
                                             "currentlyHoused": -1,
                                             "conversionConstant":  1},
 
-                           'Paprika': {"teaspoons/second":  7.5,
+                           'Paprika': {"teaspoons/second":  8.5,
                                        "currentlyHoused": -1,
                                        "conversionConstant":  1},
 
-                           'Cayenne Pepper': {"teaspoons/second":  7.5,
+                           'Cayenne Pepper': {"teaspoons/second":  8.5,
                                               "currentlyHoused": -1,
                                               "conversionConstant":  1},
 
-                           'Chili Powder': {"teaspoons/second":  15,
+                           'Chili Powder': {"teaspoons/second":  8.5,
                                             "currentlyHoused": -1,
                                             "conversionConstant":  1},
 
-                           'Ground Ginger': {"teaspoons/second":  15,
+                           'Ground Ginger': {"teaspoons/second":  8.5,
                                              "currentlyHoused": -1,
                                              "conversionConstant":  1},
 
-                           'Dried Oregano': {"teaspoons/second":  7.5,
+                           'Dried Oregano': {"teaspoons/second":  8.5,
                                              "currentlyHoused": -1,
                                              "conversionConstant":  1},
 
